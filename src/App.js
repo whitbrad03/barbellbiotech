@@ -22,31 +22,31 @@ const CRYPTO_OPTIONS = [
 ];
 
 const products = [
-  { id: 1, name: "Retatrutide", category: "GLP / Metabolic", badge: "NEW",
+  { id: 1, name: "Retatrutide", category: "GLP / Metabolic", badge: "NEW", image: "/images/retatrutide.png",
     variants: [{ label: "10mg", price: 89 }, { label: "20mg", price: 159 }],
     description: "Tri-agonist research compound targeting GLP-1, GIP, and glucagon receptors. Lyophilised, >98% purity. COA available." },
-  { id: 2, name: "CJC-1295 No DAC", category: "Growth Hormone", badge: null,
+  { id: 2, name: "CJC-1295 No DAC", category: "Growth Hormone", badge: null, image: "/images/cjc1295.png",
     variants: [{ label: "2mg", price: 42 }],
     description: "GHRH analogue without Drug Affinity Complex. Lyophilised, >98% purity. COA available." },
-  { id: 3, name: "BPC-157", category: "Repair & Recovery", badge: "POPULAR",
+  { id: 3, name: "BPC-157", category: "Repair & Recovery", badge: "POPULAR", image: "/images/bpc157.png",
     variants: [{ label: "10mg", price: 55 }],
     description: "Pentadecapeptide derived from human gastric juice protein. Research-grade. COA available." },
-  { id: 4, name: "TB-500", category: "Repair & Recovery", badge: null,
+  { id: 4, name: "TB-500", category: "Repair & Recovery", badge: null, image: "/images/tb500.png",
     variants: [{ label: "10mg", price: 59 }],
     description: "Synthetic analogue of Thymosin Beta-4. Lyophilised powder, >98% purity. COA available." },
-  { id: 5, name: "Wolverine Stack", category: "Stacks", badge: "BUNDLE",
+  { id: 5, name: "Wolverine Stack", category: "Stacks", badge: "BUNDLE", image: "/images/wolverine.png",
     variants: [{ label: "BPC-157 10mg + TB-500 10mg", price: 99 }],
     description: "Combined BPC-157 and TB-500 research bundle. Both compounds independently tested. COAs available." },
-  { id: 6, name: "Ipamorelin", category: "Growth Hormone", badge: null,
+  { id: 6, name: "Ipamorelin", category: "Growth Hormone", badge: null, image: "/images/ipamorelin.png",
     variants: [{ label: "10mg", price: 48 }],
     description: "Selective GH secretagogue peptide. Lyophilised, high purity. COA available." },
-  { id: 7, name: "GHK-Cu", category: "Repair & Recovery", badge: null,
+  { id: 7, name: "GHK-Cu", category: "Repair & Recovery", badge: null, image: "/images/ghkcu.png",
     variants: [{ label: "50mg", price: 65 }, { label: "100mg", price: 110 }],
     description: "Copper peptide complex. Research applications in cellular biology. COA available." },
-  { id: 8, name: "MOTS-C", category: "Metabolic", badge: null,
+  { id: 8, name: "MOTS-C", category: "Metabolic", badge: null, image: "/images/motsc.png",
     variants: [{ label: "10mg", price: 72 }],
     description: "Mitochondria-derived peptide. Emerging research compound. Third-party tested. COA available." },
-  { id: 9, name: "BAC Water", category: "Ancillaries", badge: null,
+  { id: 9, name: "BAC Water", category: "Ancillaries", badge: null, image: "/images/bac.png",
     variants: [{ label: "3ml", price: 8 }, { label: "10ml", price: 14 }],
     description: "Bacteriostatic water for research reconstitution. Sterile, 0.9% benzyl alcohol preserved." },
 ];
@@ -105,6 +105,7 @@ a{color:inherit;text-decoration:none;}
 
 /* PRODUCT CARDS */
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.product-img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;background:#f3f4f6;margin-bottom:4px;}
 .product-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem;display:flex;flex-direction:column;gap:10px;transition:box-shadow .15s,border-color .15s;}
 .product-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);border-color:#d1d5db;}
 .product-cat{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;color:#9ca3af;text-transform:uppercase;}
