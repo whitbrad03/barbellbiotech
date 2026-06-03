@@ -3,7 +3,7 @@
 
 export const CONFIG = {
   // EmailJS — order notification to you
-  EMAILJS_SERVICE_ID:   'service_0pc2uv9',
+  EMAILJS_SERVICE_ID:   'service_n0gnw0b',
   EMAILJS_TEMPLATE_ID:  'template_68p32ml',
   EMAILJS_PUBLIC_KEY:   'JeZu2-v9rHhgqGZId',
 
