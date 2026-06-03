@@ -435,7 +435,29 @@ export default function App() {
   const [coaSent, setCoaSent] = useState(false);
   const [reviewProduct, setReviewProduct] = useState(null);
   const [sending, setSending] = useState(false);
+  const [inventory, setInventory] = useState({});
   const toastRef = useRef(null);
+
+  // Fetch inventory on load
+  useEffect(() => {
+    const url = CONFIG.INVENTORY_SCRIPT_URL;
+    if (!url || url.includes('YOUR_INVENTORY')) return;
+    fetch(url)
+      .then(r => r.json())
+      .then(d => { if (d.success) setInventory(d.inventory); })
+      .catch(() => {});
+  }, []);
+
+  const getStock = (productId, variantLabel) => {
+    // Find matching inventory entry
+    const entries = Object.values(inventory);
+    const match = entries.find(e => 
+      e.productName && e.productName.toLowerCase().includes(productId.toString()) ||
+      Object.keys(inventory).includes(productId.toString())
+    );
+    const item = inventory[productId];
+    return item ? parseInt(item.stock) : null;
+  };
 
   // Persist cart
   useEffect(() => {
@@ -501,6 +523,25 @@ export default function App() {
     loyalty_plan: loyaltyActive ? loyaltySub : 'None',
   });
 
+  const deductStock = async (orderCart) => {
+    const url = CONFIG.INVENTORY_SCRIPT_URL;
+    if (!url || url.includes('YOUR_INVENTORY')) return;
+    for (const item of orderCart) {
+      try {
+        await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'updateStock',
+            productId: item.pid,
+            quantity: item.qty,
+          }),
+        });
+      } catch (e) {}
+    }
+    // Refresh inventory
+    fetch(url).then(r => r.json()).then(d => { if (d.success) setInventory(d.inventory); }).catch(() => {});
+  };
+
   const confirmOrder = async () => {
     setSending(true);
     const orderData = buildOrderData();
@@ -549,6 +590,7 @@ export default function App() {
       `);
       await fetch('https://api.web3forms.com/submit', { method: 'POST', body: w3form });
     } catch (e) { console.error('Web3Forms:', e); }
+    await deductStock(cart);
     setCart([]);
     setSending(false);
     setOrderDone(true);
@@ -660,7 +702,13 @@ export default function App() {
                     <img className="product-img" src={product.img} alt={product.name} loading="lazy" />
                     <div>
                       <div className="product-cat">{product.cat}</div>
-                      <div className="in-stock">In Stock</div>
+                      {(() => {
+                        const stock = inventory[product.id] !== undefined ? parseInt(inventory[product.id].stock) : null;
+                        if (stock === null) return <div className="in-stock">In Stock</div>;
+                        if (stock === 0) return <div style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,fontWeight:500,color:'#ef4444'}}>● Out of Stock</div>;
+                        if (stock < 10) return <div style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,fontWeight:500,color:'#f59e0b'}}>● Only {stock} left</div>;
+                        return <div className="in-stock">In Stock</div>;
+                      })()}
                       {badgeEl(product.badge)}
                       <div className="product-name">{product.name}</div>
                     </div>
@@ -679,9 +727,15 @@ export default function App() {
                         <div className="price-sub">AUD · {v.l}</div>
                       </div>
                     </div>
-                    <button className="add-btn" onClick={() => addToCart(product)}>
-                      <i className="ti ti-shopping-cart-plus" /> Add to Cart
-                    </button>
+                    {(() => {
+                        const stock = inventory[product.id] !== undefined ? parseInt(inventory[product.id].stock) : null;
+                        const outOfStock = stock !== null && stock === 0;
+                        return (
+                          <button className="add-btn" onClick={() => addToCart(product)} disabled={outOfStock} style={outOfStock ? {background:'var(--gray-200)',color:'var(--gray-400)',cursor:'default'} : {}}>
+                            <i className="ti ti-shopping-cart-plus" /> {outOfStock ? 'Out of Stock' : 'Add to Cart'}
+                          </button>
+                        );
+                      })()}
                     {!product.isAncillary && (
                       <button className="addon-btn" onClick={addAddon}>
                         <i className="ti ti-plus" /> Add Reconstitution Kit (+$24)

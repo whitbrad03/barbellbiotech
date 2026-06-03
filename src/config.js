@@ -10,8 +10,11 @@ export const CONFIG = {
   // Web3Forms — confirmation email to customer
   WEB3FORMS_KEY: 'f0cd7856-f19d-4e9b-afcc-9918c595ac18',
 
-  // Google Apps Script — reviews (paste your deployed web app URL here)
+  // Google Apps Script — reviews
   REVIEWS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwhrDh95vM1kpWm83fndmSwO15x-jDjYSdliVjNBXqfngWht_VIRBLVCpbQyiUBHSDU/exec',
+
+  // Google Apps Script — inventory (paste your deployed web app URL here)
+  INVENTORY_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbywopIFAf8aGAvXh0AFKFfz_tfvJ5DZOOaeZz50lUHTKdn0dZCtdNTBuolZaciGKpMV/exec',
 
   // Contact
   CONTACT_EMAIL: 'research@barbellbiotech.com',
