@@ -1,12 +1,5 @@
 // BARBELL BIOTECH — INVENTORY GOOGLE APPS SCRIPT
-//
-// SETUP INSTRUCTIONS:
-// 1. Go to script.google.com and create a new project
-// 2. Paste this entire file into the editor
-// 3. Click Deploy > New Deployment > Web App
-// 4. Set "Execute as" to "Me" and "Who has access" to "Anyone"
-// 5. Click Deploy and copy the Web App URL
-// 6. Paste that URL into src/config.js as INVENTORY_SCRIPT_URL
+// Deploy as Web App: Execute as Me, Who has access: Anyone
 
 const INVENTORY_SHEET_ID = '1qr_aLbAzbSe1yufH5m_TKRrX_XHx9heG049dQWOC5B0';
 
@@ -14,17 +7,17 @@ function doGet(e) {
   try {
     const sheet = SpreadsheetApp.openById(INVENTORY_SHEET_ID).getActiveSheet();
     const data = sheet.getDataRange().getValues();
-    const headers = data[0];
+    const headers = data[0]; // [productId, productName, stock]
     
+    // Build inventory keyed by "productId_productName" for variant matching
     const inventory = {};
     for (let i = 1; i < data.length; i++) {
       const row = data[i];
-      const item = {};
-      headers.forEach((h, j) => item[h] = row[j]);
-      inventory[item.productId] = {
-        productName: item.productName,
-        stock: parseInt(item.stock) || 0,
-      };
+      const productId = row[0].toString();
+      const productName = row[1].toString().trim();
+      const stock = parseInt(row[2]) || 0;
+      const key = productId + '_' + productName;
+      inventory[key] = { productId, productName, stock };
     }
     
     return ContentService
@@ -40,11 +33,9 @@ function doGet(e) {
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
-    
     if (data.action === 'updateStock') {
-      return updateStock(data.productId, data.quantity);
+      return updateStock(data.productId, data.productName, data.quantity);
     }
-    
     return ContentService
       .createTextOutput(JSON.stringify({ error: 'Invalid action' }))
       .setMimeType(ContentService.MimeType.JSON);
@@ -55,12 +46,17 @@ function doPost(e) {
   }
 }
 
-function updateStock(productId, quantityToDeduct) {
+function updateStock(productId, productName, quantityToDeduct) {
   const sheet = SpreadsheetApp.openById(INVENTORY_SHEET_ID).getActiveSheet();
   const data = sheet.getDataRange().getValues();
   
   for (let i = 1; i < data.length; i++) {
-    if (data[i][0] == productId) {
+    const rowId = data[i][0].toString();
+    const rowName = data[i][1].toString().trim();
+    // Match by productId and partial productName
+    if (rowId === productId.toString() && 
+        (rowName.toLowerCase().includes(productName.toLowerCase()) || 
+         productName.toLowerCase().includes(rowName.toLowerCase()))) {
       const currentStock = parseInt(data[i][2]) || 0;
       const newStock = Math.max(0, currentStock - quantityToDeduct);
       sheet.getRange(i + 1, 3).setValue(newStock);
@@ -69,8 +65,7 @@ function updateStock(productId, quantityToDeduct) {
         .setMimeType(ContentService.MimeType.JSON);
     }
   }
-  
   return ContentService
-    .createTextOutput(JSON.stringify({ error: 'Product not found' }))
+    .createTextOutput(JSON.stringify({ error: 'Product not found', productId, productName }))
     .setMimeType(ContentService.MimeType.JSON);
 }

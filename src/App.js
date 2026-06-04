@@ -449,14 +449,18 @@ export default function App() {
   }, []);
 
   const getStock = (productId, variantLabel) => {
-    // Find matching inventory entry
+    // Match by productId + variant label (e.g. "1_Retatrutide 10mg")
     const entries = Object.values(inventory);
-    const match = entries.find(e => 
-      e.productName && e.productName.toLowerCase().includes(productId.toString()) ||
-      Object.keys(inventory).includes(productId.toString())
+    // First try exact variant match
+    const exactMatch = entries.find(e => 
+      e.productId === productId.toString() &&
+      e.productName.toLowerCase().includes(variantLabel.toLowerCase())
     );
-    const item = inventory[productId];
-    return item ? parseInt(item.stock) : null;
+    if (exactMatch) return exactMatch.stock;
+    // Fall back to any entry with matching productId
+    const idMatch = entries.find(e => e.productId === productId.toString());
+    if (idMatch) return idMatch.stock;
+    return null;
   };
 
   // Persist cart
@@ -533,6 +537,7 @@ export default function App() {
           body: JSON.stringify({
             action: 'updateStock',
             productId: item.pid,
+            productName: item.variant,
             quantity: item.qty,
           }),
         });
@@ -703,7 +708,9 @@ export default function App() {
                     <div>
                       <div className="product-cat">{product.cat}</div>
                       {(() => {
-                        const stock = inventory[product.id] !== undefined ? parseInt(inventory[product.id].stock) : null;
+                        const vi = vIdx(product.id);
+                        const variantLabel = product.variants[vi].l;
+                        const stock = getStock(product.id, variantLabel);
                         if (stock === null) return <div className="in-stock">In Stock</div>;
                         if (stock === 0) return <div style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,fontWeight:500,color:'#ef4444'}}>● Out of Stock</div>;
                         if (stock < 10) return <div style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,fontWeight:500,color:'#f59e0b'}}>● Only {stock} left</div>;
@@ -728,7 +735,9 @@ export default function App() {
                       </div>
                     </div>
                     {(() => {
-                        const stock = inventory[product.id] !== undefined ? parseInt(inventory[product.id].stock) : null;
+                        const vi = vIdx(product.id);
+                        const variantLabel = product.variants[vi].l;
+                        const stock = getStock(product.id, variantLabel);
                         const outOfStock = stock !== null && stock === 0;
                         return (
                           <button className="add-btn" onClick={() => addToCart(product)} disabled={outOfStock} style={outOfStock ? {background:'var(--gray-200)',color:'var(--gray-400)',cursor:'default'} : {}}>

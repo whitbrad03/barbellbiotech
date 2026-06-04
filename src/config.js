@@ -14,7 +14,7 @@ export const CONFIG = {
   REVIEWS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwhrDh95vM1kpWm83fndmSwO15x-jDjYSdliVjNBXqfngWht_VIRBLVCpbQyiUBHSDU/exec',
 
   // Google Apps Script — inventory (paste your deployed web app URL here)
-  INVENTORY_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbywopIFAf8aGAvXh0AFKFfz_tfvJ5DZOOaeZz50lUHTKdn0dZCtdNTBuolZaciGKpMV/exec',
+  INVENTORY_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxLAt-8Msb8YjbJbGBf8mJT1f-XGqwH9pL4Dx467dmpAdf1g-jqR-ZA1ml0E9gRkR4x/exec',
 
   // Contact
   CONTACT_EMAIL: 'research@barbellbiotech.com',
