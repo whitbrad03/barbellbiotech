@@ -449,14 +449,18 @@ export default function App() {
   }, []);
 
   const getStock = (productId, variantLabel) => {
-    // Find matching inventory entry
+    // Match by productId + variant label (e.g. "1_Retatrutide 10mg")
     const entries = Object.values(inventory);
-    const match = entries.find(e => 
-      e.productName && e.productName.toLowerCase().includes(productId.toString()) ||
-      Object.keys(inventory).includes(productId.toString())
+    // First try exact variant match
+    const exactMatch = entries.find(e => 
+      e.productId === productId.toString() &&
+      e.productName.toLowerCase().includes(variantLabel.toLowerCase())
     );
-    const item = inventory[productId];
-    return item ? parseInt(item.stock) : null;
+    if (exactMatch) return exactMatch.stock;
+    // Fall back to any entry with matching productId
+    const idMatch = entries.find(e => e.productId === productId.toString());
+    if (idMatch) return idMatch.stock;
+    return null;
   };
 
   // Persist cart
@@ -533,6 +537,7 @@ export default function App() {
           body: JSON.stringify({
             action: 'updateStock',
             productId: item.pid,
+            productName: item.variant,
             quantity: item.qty,
           }),
         });
@@ -545,51 +550,14 @@ export default function App() {
   const confirmOrder = async () => {
     setSending(true);
     const orderData = buildOrderData();
-    // Send to you via EmailJS
+    // Send order notification to research@barbellbiotech.com
     try {
-      await emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_ID, orderData);
-    } catch (e) { console.error('EmailJS:', e); }
-    // Send to customer via Web3Forms
+      await emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_ORDER, orderData);
+    } catch (e) { console.error('EmailJS order notification:', e); }
+    // Send confirmation to customer
     try {
-      const itemsHtml = orderData.items.split('\n').join('<br/>');
-      const w3form = new FormData();
-      w3form.append('access_key', CONFIG.WEB3FORMS_KEY);
-      w3form.append('to', checkoutShip.email);
-      w3form.append('from_name', 'Barbell Biotech');
-      w3form.append('replyto', CONFIG.CONTACT_EMAIL);
-      w3form.append('subject', 'Order Confirmed — Barbell Biotech');
-      w3form.append('message', `
-        <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;">
-          <div style="background:#16a34a;padding:24px 32px;border-radius:12px 12px 0 0;">
-            <div style="font-size:22px;font-weight:800;color:#fff;">Barbell Biotech</div>
-            <div style="font-size:12px;color:rgba(255,255,255,.75);">${CONFIG.CONTACT_EMAIL}</div>
-          </div>
-          <div style="background:#fff;padding:32px;border:1px solid #e5e7eb;">
-            <p style="font-size:16px;font-weight:700;color:#111827;margin:0 0 8px;">Thanks for your order, ${checkoutShip.name}.</p>
-            <p style="font-size:13px;color:#6b7280;margin:0 0 24px;">Once your payment is confirmed on-chain your order will be dispatched promptly.</p>
-            <p style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em;border-bottom:2px solid #16a34a;padding-bottom:8px;margin-bottom:12px;">Your Order</p>
-            <p style="font-size:13px;color:#374151;line-height:1.9;">${itemsHtml}</p>
-            <div style="background:#f9fafb;border-radius:8px;padding:16px;margin:16px 0;">
-              <div style="display:flex;justify-content:space-between;font-size:13px;color:#6b7280;padding:2px 0;"><span>Subtotal</span><span>${orderData.subtotal}</span></div>
-              <div style="display:flex;justify-content:space-between;font-size:13px;color:#6b7280;padding:2px 0;"><span>Discount</span><span>${orderData.discount}</span></div>
-              <div style="display:flex;justify-content:space-between;font-size:13px;color:#6b7280;padding:2px 0;"><span>Shipping</span><span>${orderData.shipping_cost}</span></div>
-              <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:800;color:#111827;margin-top:8px;padding-top:8px;border-top:1px solid #e5e7eb;"><span>Total</span><span>${orderData.total}</span></div>
-            </div>
-            <p style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em;border-bottom:2px solid #16a34a;padding-bottom:8px;margin-bottom:12px;">Shipping To</p>
-            <p style="font-size:13px;color:#374151;">${orderData.address}<br/><strong>Method:</strong> ${orderData.shipping}</p>
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin-top:16px;">
-              <p style="font-size:12px;font-weight:700;color:#15803d;margin:0 0 6px;text-transform:uppercase;">What happens next</p>
-              <p style="font-size:12px;color:#374151;line-height:1.8;margin:0;">1. We verify your payment on-chain — usually within a few hours.<br/>2. Once confirmed, your order is dispatched same or next business day.<br/>3. You will receive tracking details by email once shipped.<br/><br/>Questions? Email ${CONFIG.CONTACT_EMAIL}</p>
-            </div>
-            <p style="font-size:11px;color:#9ca3af;margin-top:16px;">All products are strictly for laboratory and in-vitro research use only.</p>
-          </div>
-          <div style="background:#f9fafb;padding:16px 32px;border-radius:0 0 12px 12px;border:1px solid #e5e7eb;border-top:none;">
-            <p style="font-size:11px;color:#9ca3af;margin:0;">© 2026 Barbell Biotech · ${CONFIG.CONTACT_EMAIL} · barbellbiotech.com</p>
-          </div>
-        </div>
-      `);
-      await fetch('https://api.web3forms.com/submit', { method: 'POST', body: w3form });
-    } catch (e) { console.error('Web3Forms:', e); }
+      await emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_CUSTOMER, orderData);
+    } catch (e) { console.error('EmailJS customer confirmation:', e); }
     await deductStock(cart);
     setCart([]);
     setSending(false);
@@ -599,7 +567,7 @@ export default function App() {
   const submitCoa = async () => {
     if (!coaEmail.includes('@')) return;
     try {
-      await emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_ID, {
+      await emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_ORDER, {
         name: 'COA Request', email: coaEmail, address: 'N/A', shipping: 'N/A',
         items: `COA REQUEST: ${coaProduct}`, subtotal: 'N/A', discount: 'N/A',
         shipping_cost: 'N/A', total: 'N/A', payment_currency: 'N/A',
@@ -703,7 +671,9 @@ export default function App() {
                     <div>
                       <div className="product-cat">{product.cat}</div>
                       {(() => {
-                        const stock = inventory[product.id] !== undefined ? parseInt(inventory[product.id].stock) : null;
+                        const vi = vIdx(product.id);
+                        const variantLabel = product.variants[vi].l;
+                        const stock = getStock(product.id, variantLabel);
                         if (stock === null) return <div className="in-stock">In Stock</div>;
                         if (stock === 0) return <div style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,fontWeight:500,color:'#ef4444'}}>● Out of Stock</div>;
                         if (stock < 10) return <div style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,fontWeight:500,color:'#f59e0b'}}>● Only {stock} left</div>;
@@ -728,7 +698,9 @@ export default function App() {
                       </div>
                     </div>
                     {(() => {
-                        const stock = inventory[product.id] !== undefined ? parseInt(inventory[product.id].stock) : null;
+                        const vi = vIdx(product.id);
+                        const variantLabel = product.variants[vi].l;
+                        const stock = getStock(product.id, variantLabel);
                         const outOfStock = stock !== null && stock === 0;
                         return (
                           <button className="add-btn" onClick={() => addToCart(product)} disabled={outOfStock} style={outOfStock ? {background:'var(--gray-200)',color:'var(--gray-400)',cursor:'default'} : {}}>
