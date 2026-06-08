@@ -3,7 +3,7 @@
 
 export const CONFIG = {
   // EmailJS — all emails via Zoho SMTP
-  EMAILJS_SERVICE_ID:        'service_v9n6hjt',
+  EMAILJS_SERVICE_ID:        'service_uy7bz6i',
   EMAILJS_TEMPLATE_ORDER:    'template_68p32ml',    // Order notification to you
   EMAILJS_TEMPLATE_CUSTOMER: 'template_zi1nekd',    // Confirmation to customer
   EMAILJS_PUBLIC_KEY:        'JeZu2-v9rHhgqGZId',
