@@ -53,7 +53,7 @@ export const PRODUCTS = [
   },
   {
     id: 10, name: 'Reconstitution Kit', cat: 'Ancillaries', badge: 'ADD-ON', img: img_kit,
-    variants: [{ l: 'Kit', p: 24 }],
+    variants: [{ l: 'Kit', p: 29 }],
     desc: '5x insulin needles, 1x 3ml syringe with needle, 10x alcohol wipes, 1x BAC Water 3ml. Everything needed for reconstitution.',
     isAncillary: true,
   },
