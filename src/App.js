@@ -83,16 +83,18 @@ img{max-width:100%;display:block;}
 .research-bar{background:var(--gray-100);border-bottom:1px solid var(--gray-200);padding:8px 2.5rem;text-align:center;font-size:11px;color:var(--gray-400);letter-spacing:.04em;}
 
 /* HERO */
-.hero{background:var(--white);border-bottom:1px solid var(--gray-200);padding:5rem 2.5rem;}
-.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;max-width:1200px;margin:0 auto;}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--gold-l);border:1px solid var(--gold-b);color:var(--gold-d);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:1.5rem;}
-.hero h1{font-size:clamp(36px,4.5vw,60px);font-weight:800;line-height:1.0;letter-spacing:-.03em;color:var(--gray-900);margin-bottom:1.25rem;}
-.hero h1 em{background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal;}
-.hero-sub{font-size:14px;color:var(--gray-500);max-width:480px;line-height:1.8;margin-bottom:2rem;}
-.hero-pills{display:flex;gap:8px;flex-wrap:wrap;}
-.pill{background:var(--gray-50);border:1px solid var(--gray-200);padding:5px 14px;font-size:11px;font-weight:500;color:var(--gray-500);border-radius:20px;letter-spacing:.04em;}
-.hero-img-wrap{border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-lg);}
-.hero-img{width:100%;height:100%;object-fit:cover;}
+.hero{position:relative;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--dark-3);}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.65) 50%,rgba(0,0,0,.4) 100%);}
+.hero-inner{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:6rem 2.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);color:var(--gold);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:2rem;backdrop-filter:blur(4px);}
+.hero h1{font-size:clamp(42px,6vw,82px);font-weight:800;line-height:.95;letter-spacing:-.03em;color:var(--white);margin-bottom:1.5rem;}
+.hero h1 em{background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal;display:block;}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.65);max-width:520px;line-height:1.8;margin-bottom:2.5rem;}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:6px 14px;font-size:11px;font-weight:500;color:rgba(255,255,255,.7);border-radius:20px;letter-spacing:.04em;backdrop-filter:blur(4px);}
+.hero-img-wrap{display:none;}
+.hero-img{display:none;}
 
 /* INFO TILES */
 .info-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));border-bottom:1px solid var(--gray-200);}
@@ -298,7 +300,7 @@ img{max-width:100%;display:block;}
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--dark);color:var(--white);padding:10px 22px;font-size:12px;font-weight:500;border-radius:var(--radius);box-shadow:0 4px 20px rgba(0,0,0,.25);z-index:500;pointer-events:none;opacity:0;transition:opacity .2s;white-space:nowrap;border:1px solid var(--dark-3);}
 .toast.show{opacity:1;}
 
-@media(max-width:768px){.hero-inner{grid-template-columns:1fr;}.hero-img-wrap{order:-1;max-height:280px;}}
+@media(max-width:768px){.hero{min-height:480px;}.hero h1{font-size:42px;}}
 @media(max-width:600px){
   .nav-link:not(.cart-btn){display:none;}
   .hero h1{font-size:36px;}
@@ -683,19 +685,16 @@ export default function App() {
       {page === 'shop' && (
         <>
           <div className="hero">
+            <img src={img_hero} alt="Barbell Biotech" className="hero-bg" />
+            <div className="hero-overlay" />
             <div className="hero-inner">
-              <div>
-                <div className="hero-tag"><i className="ti ti-flask-2" /> Research-Grade Compounds · Australia</div>
-                <h1>Premium<br />Research<br /><em>Peptides.</em></h1>
-                <p className="hero-sub">High-purity research compounds for the serious researcher. Every batch independently tested. COAs available on every compound.</p>
-                <div className="hero-pills">
-                  {['99%+ Purity','Third-Party Tested','COA Available','Free Ship $150+','Crypto Payment','Express Available'].map(p => (
-                    <span key={p} className="pill">{p}</span>
-                  ))}
-                </div>
-              </div>
-              <div className="hero-img-wrap">
-                <img src={img_hero} alt="Barbell Biotech research vials" className="hero-img" />
+              <div className="hero-tag"><i className="ti ti-flask-2" /> Research-Grade Compounds · Australia</div>
+              <h1>Premium Research<br /><em>Peptides.</em></h1>
+              <p className="hero-sub">High-purity research compounds for the serious researcher. Every batch independently tested. COAs available on every compound.</p>
+              <div className="hero-pills">
+                {['99%+ Purity','Third-Party Tested','COA Available','Free Ship $150+','Crypto Payment','Express Available'].map(p => (
+                  <span key={p} className="pill">{p}</span>
+                ))}
               </div>
             </div>
           </div>
