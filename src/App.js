@@ -45,6 +45,7 @@ function AnnouncementBanner() {
 
 // ── CSS ───────────────────────────────────────────────────────────────────────
 const css = `
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --gold:#c9a84c;--gold-d:#a07820;--gold-l:#fdf6e3;--gold-b:#e8c96a;--gold-gradient:linear-gradient(135deg,#f5e070 0%,#c9a84c 30%,#f0d060 50%,#a07820 70%,#e8c040 100%);
@@ -72,8 +73,10 @@ img{max-width:100%;display:block;}
 
 /* NAV */
 .nav{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--gray-200);height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;box-shadow:0 1px 0 var(--gray-200);}
-.nav-logo{font-size:18px;font-weight:700;color:var(--gray-900);cursor:pointer;letter-spacing:.12em;text-transform:uppercase;background:none;border:none;}
-.nav-logo span{background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gray-900);cursor:pointer;letter-spacing:.06em;background:none;border:none;font-style:italic;}
+.nav-logo-main{font-style:italic;color:var(--gray-900);}
+.nav-logo span{background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal;}
+.nav-logo-sub{font-family:'Inter',sans-serif;font-size:8px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--gray-400);display:block;margin-top:-2px;font-style:normal;}
 .nav-links{display:flex;gap:2rem;align-items:center;}
 .nav-link{background:none;border:none;color:var(--gray-400);font-size:12px;font-weight:500;padding:4px 0;transition:color .15s;letter-spacing:.06em;text-transform:uppercase;}
 .nav-link:hover,.nav-link.active{color:var(--gray-900);}
@@ -90,7 +93,7 @@ img{max-width:100%;display:block;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.65) 50%,rgba(0,0,0,.4) 100%);}
 .hero-inner{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:6rem 2.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;}
 .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);color:var(--gold);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:2rem;backdrop-filter:blur(4px);}
-.hero h1{font-size:clamp(42px,6vw,82px);font-weight:800;line-height:.95;letter-spacing:-.03em;color:var(--white);margin-bottom:1.5rem;}
+.hero h1{font-family:"Playfair Display",serif;font-size:clamp(42px,6vw,82px);font-weight:800;line-height:.95;letter-spacing:-.01em;color:var(--white);margin-bottom:1.5rem;}
 .hero h1 em{background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal;display:block;}
 .hero-sub{font-size:15px;color:rgba(255,255,255,.65);max-width:520px;line-height:1.8;margin-bottom:2.5rem;}
 .hero-pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
@@ -282,8 +285,9 @@ img{max-width:100%;display:block;}
 
 /* FOOTER */
 .footer{background:var(--dark);border-top:1px solid var(--dark-3);padding:3rem 2.5rem;display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;align-items:flex-start;}
-.footer-brand{font-size:16px;font-weight:700;color:var(--white);letter-spacing:.12em;text-transform:uppercase;}
-.footer-brand span{background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.footer-brand{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);letter-spacing:.04em;font-style:italic;}
+.footer-brand span{background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal;}
+.footer-brand-sub{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.25);display:block;margin-top:2px;font-style:normal;}
 .footer-email{font-size:12px;color:rgba(255,255,255,.35);margin-top:6px;}
 .footer-legal{font-size:11px;color:rgba(255,255,255,.25);line-height:1.8;max-width:480px;}
 .footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;}
@@ -751,7 +755,10 @@ export default function App() {
 
       {/* NAV */}
       <nav className="nav">
-        <button className="nav-logo" onClick={() => setPage('shop')}>Barbell<span>.</span>Biotech</button>
+        <button className="nav-logo" onClick={() => setPage('shop')}>
+          <span className="nav-logo-main">Barbell<span>.</span>Biotech</span>
+          <span className="nav-logo-sub">Research Compounds</span>
+        </button>
         <div className="nav-links">
           {[['shop','Shop'],['loyalty','Loyalty'],['info','Info'],['terms','Terms']].map(([p,l]) => (
             <button key={p} className={`nav-link${page===p?' active':''}`} onClick={() => setPage(p)}>{l}</button>
@@ -1005,7 +1012,10 @@ export default function App() {
       {/* FOOTER */}
       <footer className="footer">
         <div>
-          <div className="footer-brand">Barbell<span>.</span>Biotech</div>
+          <div className="footer-brand">
+            Barbell<span>.</span>Biotech
+            <span className="footer-brand-sub">Research Compounds</span>
+          </div>
           <div className="footer-email">{CONFIG.CONTACT_EMAIL}</div>
         </div>
         <div className="footer-legal">All products are for research purposes only and not for human consumption. Products have not been evaluated by the TGA. Customers are responsible for compliance with all applicable local laws. © 2026 Barbell Biotech.</div>
