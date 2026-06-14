@@ -477,6 +477,37 @@ function ReviewModal({ product, onClose }) {
   );
 }
 
+// ── PRODUCT IMAGE CAROUSEL ────────────────────────────────────────────────
+function ProductImage({ product }) {
+  const [imgIdx, setImgIdx] = useState(0);
+  const hasCoa = !!COAS[product.id];
+  const imgs = hasCoa ? [product.img, COAS[product.id].img] : [product.img];
+
+  return (
+    <div style={{position:'relative'}}>
+      <img className="product-img" src={imgs[imgIdx]} alt={imgIdx===0?product.name:'COA'} loading="lazy"
+        style={{borderRadius:'var(--radius)',cursor:hasCoa?'pointer':'default'}}
+        onClick={() => hasCoa && setImgIdx(i => (i+1)%imgs.length)} />
+      {hasCoa && (
+        <div style={{position:'absolute',bottom:6,right:6,display:'flex',gap:4,alignItems:'center'}}>
+          <button onClick={(e)=>{e.stopPropagation();setImgIdx(i=>(i+1)%imgs.length);}}
+            style={{background:'rgba(0,0,0,.65)',backdropFilter:'blur(4px)',border:'none',color:'#fff',width:24,height:24,borderRadius:'50%',fontSize:13,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',lineHeight:1}}>
+            {imgIdx===0?'›':'‹'}
+          </button>
+          <span style={{background:'rgba(0,0,0,.65)',backdropFilter:'blur(4px)',color:imgIdx===1?'var(--gold)':'rgba(255,255,255,.8)',fontSize:9,fontWeight:700,letterSpacing:'.06em',padding:'2px 6px',borderRadius:10,textTransform:'uppercase'}}>
+            {imgIdx===0?'COA ›':'‹ Back'}
+          </span>
+        </div>
+      )}
+      {hasCoa && imgIdx===1 && (
+        <div style={{position:'absolute',top:6,left:6,background:'var(--gold)',color:'var(--dark)',fontSize:9,fontWeight:700,letterSpacing:'.06em',padding:'2px 8px',borderRadius:10,textTransform:'uppercase'}}>
+          {COAS[product.id].purity} Pure
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── REVIEWS CAROUSEL ──────────────────────────────────────────────────────
 function ReviewsCarousel() {
   const [reviews, setReviews] = useState([]);
@@ -852,34 +883,7 @@ export default function App() {
                 const v = product.variants[vi];
                 return (
                   <div className="product-card" key={product.id}>
-                    {(() => {
-                      const [imgIdx, setImgIdx] = React.useState(0);
-                      const hasCoa = !!COAS[product.id];
-                      const imgs = hasCoa ? [product.img, COAS[product.id].img] : [product.img];
-                      return (
-                        <div style={{position:'relative'}}>
-                          <img className="product-img" src={imgs[imgIdx]} alt={imgIdx===0?product.name:'COA'} loading="lazy"
-                            style={{borderRadius:'var(--radius)',cursor:hasCoa?'pointer':'default'}}
-                            onClick={() => hasCoa && setImgIdx(i => (i+1)%imgs.length)} />
-                          {hasCoa && (
-                            <div style={{position:'absolute',bottom:6,right:6,display:'flex',gap:4,alignItems:'center'}}>
-                              <button onClick={(e)=>{e.stopPropagation();setImgIdx(i=>(i+1)%imgs.length);}}
-                                style={{background:'rgba(0,0,0,.65)',backdropFilter:'blur(4px)',border:'none',color:'#fff',width:24,height:24,borderRadius:'50%',fontSize:13,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',lineHeight:1}}>
-                                {imgIdx===0?'›':'‹'}
-                              </button>
-                              <span style={{background:'rgba(0,0,0,.65)',backdropFilter:'blur(4px)',color:imgIdx===1?'var(--gold)':'rgba(255,255,255,.8)',fontSize:9,fontWeight:700,letterSpacing:'.06em',padding:'2px 6px',borderRadius:10,textTransform:'uppercase'}}>
-                                {imgIdx===0?'COA ›':'‹ Back'}
-                              </span>
-                            </div>
-                          )}
-                          {hasCoa && imgIdx===1 && (
-                            <div style={{position:'absolute',top:6,left:6,background:'var(--gold)',color:'var(--dark)',fontSize:9,fontWeight:700,letterSpacing:'.06em',padding:'2px 8px',borderRadius:10,textTransform:'uppercase'}}>
-                              {COAS[product.id].purity} Pure
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })()}
+                    <ProductImage product={product} />
                     <div>
                       <div className="product-cat">{product.cat}</div>
                       {(() => {
