@@ -58,6 +58,8 @@ const css = `
   --radius:6px;--radius-lg:10px;--radius-xl:14px;
 }
 body{font-family:'Inter',sans-serif;background:#f5f3ef;color:var(--gray-900);}
+.shop-section-wrap{background:linear-gradient(180deg,#f5f3ef 0%,#f0ece4 100%);position:relative;}
+.shop-section-wrap::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(201,168,76,.06) 1px,transparent 0);background-size:32px 32px;pointer-events:none;}
 button{font-family:'Inter',sans-serif;cursor:pointer;}
 img{max-width:100%;display:block;}
 
@@ -107,8 +109,10 @@ img{max-width:100%;display:block;}
 
 /* SECTION */
 .section{max-width:1200px;margin:0 auto;padding:4rem 2.5rem;}
+.section-gold-rule{width:40px;height:3px;background:var(--gold-gradient);border-radius:2px;margin-bottom:.75rem;}
 .shop-bg{background:var(--gray-50);}
-.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--gray-200);}
+.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--gray-200);position:relative;}
+.section-header::after{content:'';position:absolute;bottom:-1px;left:0;width:60px;height:2px;background:var(--gold-gradient);}
 .section-title{font-size:22px;font-weight:800;color:var(--gray-900);letter-spacing:-.02em;}
 .section-count{font-size:11px;color:var(--gray-400);letter-spacing:.04em;}
 
@@ -116,17 +120,17 @@ img{max-width:100%;display:block;}
 .filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:2rem;}
 .filter-btn{background:var(--white);border:1px solid var(--gray-200);color:var(--gray-400);padding:6px 16px;font-size:11px;font-weight:600;border-radius:20px;transition:all .15s;letter-spacing:.06em;text-transform:uppercase;}
 .filter-btn:hover{border-color:var(--gold);color:var(--gold-d);}
-.filter-btn.active{border-color:var(--gold);color:var(--gold-d);background:var(--gold-l);}
+.filter-btn.active{border-color:var(--gold);color:var(--gold-d);background:var(--gold-l);box-shadow:0 0 0 1px var(--gold-b);}
 
 /* PRODUCT GRID */
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px;}
-.product-card{background:#fffefb;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.5rem;display:flex;flex-direction:column;gap:12px;transition:box-shadow .2s,border-color .2s,transform .2s;}
+.product-card{background:#fffefb;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.5rem;display:flex;flex-direction:column;gap:12px;transition:box-shadow .2s,border-color .2s,transform .2s;border-top:2px solid transparent;background-image:linear-gradient(#fffefb,#fffefb),var(--gold-gradient);background-origin:border-box;background-clip:padding-box,border-box;}
 .product-card:hover{box-shadow:var(--shadow-lg);border-color:var(--gray-300);transform:translateY(-2px);}
 .product-img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:var(--radius);background:var(--gray-100);}
 .product-cat{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--gray-400);text-transform:uppercase;}
 .in-stock{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:#16a34a;margin-top:2px;}
 .in-stock::before{content:'';width:5px;height:5px;background:#16a34a;border-radius:50%;}
-.product-name{font-size:19px;font-weight:800;color:var(--gray-900);letter-spacing:-.02em;line-height:1.1;}
+.product-name{font-size:19px;font-weight:800;color:var(--gray-900);letter-spacing:-.02em;line-height:1.1;margin-top:2px;}
 .product-desc{font-size:12px;color:var(--gray-400);line-height:1.7;flex:1;}
 .badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:20px;margin-bottom:2px;text-transform:uppercase;}
 .badge-new{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;}
@@ -136,7 +140,7 @@ img{max-width:100%;display:block;}
 .variant-row{display:flex;gap:6px;flex-wrap:wrap;}
 .variant-btn{background:var(--gray-50);border:1px solid var(--gray-200);padding:5px 12px;font-size:11px;font-weight:500;color:var(--gray-500);border-radius:var(--radius);transition:all .15s;}
 .variant-btn:hover,.variant-btn.sel{border-color:var(--gold);color:var(--gold-d);background:var(--gold-l);}
-.price-row{display:flex;align-items:flex-end;justify-content:space-between;}
+.price-row{display:flex;align-items:flex-end;justify-content:space-between;padding-top:8px;border-top:1px solid var(--gray-100);}
 .price{font-size:28px;font-weight:800;color:var(--gray-900);letter-spacing:-.03em;}
 .price-sub{font-size:11px;color:var(--gray-400);letter-spacing:.02em;}
 .add-btn{background:var(--dark);color:var(--white);border:none;padding:12px;font-size:12px;font-weight:600;border-radius:var(--radius);width:100%;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:6px;letter-spacing:.06em;text-transform:uppercase;}
@@ -191,7 +195,8 @@ img{max-width:100%;display:block;}
 
 /* PAGES */
 .page-inner{max-width:800px;margin:0 auto;padding:4rem 2.5rem;}
-.page-title{font-size:38px;font-weight:800;color:var(--gray-900);letter-spacing:-.03em;margin-bottom:2rem;}
+.page-title{font-size:38px;font-weight:800;color:var(--gray-900);letter-spacing:-.03em;margin-bottom:.75rem;}
+.page-title-rule{width:48px;height:3px;background:var(--gold-gradient);border-radius:2px;margin-bottom:2rem;}
 .info-section{margin-bottom:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--gray-100);}
 .info-h2{font-size:17px;font-weight:700;color:var(--gray-900);margin-bottom:.75rem;letter-spacing:-.01em;}
 .info-p{font-size:13px;color:var(--gray-500);line-height:1.9;margin-bottom:.75rem;}
@@ -730,7 +735,10 @@ export default function App() {
 
           <div className="section">
             <div className="section-header">
-              <div className="section-title">Compounds</div>
+              <div>
+                <div className="section-gold-rule" />
+                <div className="section-title">Compounds</div>
+              </div>
               <span className="section-count">{filtered.length} items</span>
             </div>
             <div className="filter-row">
