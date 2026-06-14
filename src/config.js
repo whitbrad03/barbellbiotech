@@ -2,13 +2,11 @@
 // Edit this file to update keys, addresses, and settings
 
 export const CONFIG = {
-  // EmailJS — order notification to you
-  EMAILJS_SERVICE_ID:   'service_n0gnw0b',
-  EMAILJS_TEMPLATE_ID:  'template_68p32ml',
-  EMAILJS_PUBLIC_KEY:   'JeZu2-v9rHhgqGZId',
-
-  // Web3Forms — confirmation email to customer
-  WEB3FORMS_KEY: 'f0cd7856-f19d-4e9b-afcc-9918c595ac18',
+  // EmailJS — all emails via Zoho SMTP
+  EMAILJS_SERVICE_ID:        'service_uy7bz6i',
+  EMAILJS_TEMPLATE_ORDER:    'template_68p32ml',    // Order notification to you
+  EMAILJS_TEMPLATE_CUSTOMER: 'template_zi1nekd',    // Confirmation to customer
+  EMAILJS_PUBLIC_KEY:        'JeZu2-v9rHhgqGZId',
 
   // Google Apps Script — reviews
   REVIEWS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwhrDh95vM1kpWm83fndmSwO15x-jDjYSdliVjNBXqfngWht_VIRBLVCpbQyiUBHSDU/exec',
