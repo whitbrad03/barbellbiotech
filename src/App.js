@@ -49,7 +49,7 @@ const css = `
 :root{
   --gold:#c9a84c;--gold-d:#a07820;--gold-l:#fdf6e3;--gold-b:#e8c96a;--gold-gradient:linear-gradient(135deg,#f5e070 0%,#c9a84c 30%,#f0d060 50%,#a07820 70%,#e8c040 100%);
   --dark:#0f0f0d;--dark-2:#1a1a16;--dark-3:#242420;
-  --gray-50:#f9f8f6;--gray-100:#f2f0ec;--gray-200:#e5e1d8;--gray-300:#ccc8be;
+  --gray-50:#f5f3ef;--gray-100:#eeeae3;--gray-200:#e0dbd0;--gray-300:#c8c2b5;
   --gray-400:#9a9485;--gray-500:#6b6555;--gray-700:#3a3628;--gray-900:#1a1714;
   --white:#ffffff;
   --shadow:0 1px 3px rgba(0,0,0,.06);
@@ -57,7 +57,7 @@ const css = `
   --shadow-lg:0 12px 40px rgba(0,0,0,.12);
   --radius:6px;--radius-lg:10px;--radius-xl:14px;
 }
-body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-900);}
+body{font-family:'Inter',sans-serif;background:#f5f3ef;color:var(--gray-900);}
 button{font-family:'Inter',sans-serif;cursor:pointer;}
 img{max-width:100%;display:block;}
 
@@ -97,15 +97,17 @@ img{max-width:100%;display:block;}
 .hero-img{display:none;}
 
 /* INFO TILES */
-.info-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));border-bottom:1px solid var(--gray-200);}
-.info-tile{background:var(--white);padding:1.75rem 2.5rem;border-right:1px solid var(--gray-200);}
-.info-tile:last-child{border-right:none;}
-.info-icon{font-size:20px;background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;}
-.info-title{font-size:13px;font-weight:700;color:var(--gray-900);margin-bottom:4px;letter-spacing:.02em;}
-.info-text{font-size:12px;color:var(--gray-400);line-height:1.6;}
+.marquee-strip{background:var(--dark-2);border-top:1px solid var(--dark-3);border-bottom:1px solid var(--dark-3);overflow:hidden;padding:0;height:56px;display:flex;align-items:center;}
+.marquee-track{display:flex;animation:marquee 30s linear infinite;white-space:nowrap;gap:0;}
+.marquee-track:hover{animation-play-state:paused;}
+.marquee-item{display:inline-flex;align-items:center;gap:10px;padding:0 3rem;font-size:13px;font-weight:600;color:rgba(255,255,255,.85);letter-spacing:.04em;white-space:nowrap;}
+.marquee-item i{background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:16px;}
+.marquee-sep{color:var(--gold);opacity:.4;font-size:18px;margin:0 1rem;}
+@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
 /* SECTION */
 .section{max-width:1200px;margin:0 auto;padding:4rem 2.5rem;}
+.shop-bg{background:var(--gray-50);}
 .section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--gray-200);}
 .section-title{font-size:22px;font-weight:800;color:var(--gray-900);letter-spacing:-.02em;}
 .section-count{font-size:11px;color:var(--gray-400);letter-spacing:.04em;}
@@ -118,7 +120,7 @@ img{max-width:100%;display:block;}
 
 /* PRODUCT GRID */
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px;}
-.product-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.5rem;display:flex;flex-direction:column;gap:12px;transition:box-shadow .2s,border-color .2s,transform .2s;}
+.product-card{background:#fffefb;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.5rem;display:flex;flex-direction:column;gap:12px;transition:box-shadow .2s,border-color .2s,transform .2s;}
 .product-card:hover{box-shadow:var(--shadow-lg);border-color:var(--gray-300);transform:translateY(-2px);}
 .product-img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:var(--radius);background:var(--gray-100);}
 .product-cat{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--gray-400);text-transform:uppercase;}
@@ -699,19 +701,31 @@ export default function App() {
             </div>
           </div>
 
-          <div className="info-strip">
-            {[
-              { icon: 'ti-flask-2', t: 'Third-Party Tested', d: 'Every batch HPLC verified. COAs available on request.' },
-              { icon: 'ti-truck-delivery', t: 'Express Shipping', d: 'Standard free on $150+. Express available at checkout.' },
-              { icon: 'ti-shield-check', t: 'Research Integrity', d: 'Strictly for laboratory and in-vitro research use only.' },
-              { icon: 'ti-currency-bitcoin', t: 'Crypto Payment', d: 'USDT, BTC, ETH, SOL accepted. Also bank transfer.' },
-            ].map((t, i) => (
-              <div className="info-tile" key={i}>
-                <div className="info-icon"><i className={`ti ${t.icon}`} /></div>
-                <div className="info-title">{t.t}</div>
-                <p className="info-text">{t.d}</p>
-              </div>
-            ))}
+          <div className="marquee-strip">
+            <div className="marquee-track">
+              {[...Array(2)].map((_, ri) => (
+                <span key={ri} style={{display:'inline-flex',alignItems:'center'}}>
+                  {[
+                    { icon: 'ti-flask-2', text: 'Third-Party HPLC Tested' },
+                    { icon: 'ti-certificate', text: 'COA Available Every Batch' },
+                    { icon: 'ti-truck-delivery', text: 'Free Shipping Over $150' },
+                    { icon: 'ti-bolt', text: 'Same Business Day Dispatch' },
+                    { icon: 'ti-shield-check', text: '≥99% Purity Guaranteed' },
+                    { icon: 'ti-currency-bitcoin', text: 'Crypto & Bank Transfer' },
+                    { icon: 'ti-package', text: 'Discreet Packaging' },
+                    { icon: 'ti-star', text: 'Australian Stock' },
+                  ].map((item, i) => (
+                    <span key={i} style={{display:'inline-flex',alignItems:'center'}}>
+                      <span className="marquee-item">
+                        <i className={`ti ${item.icon}`} />
+                        {item.text}
+                      </span>
+                      <span className="marquee-sep">·</span>
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </div>
           </div>
 
           <div className="section">
