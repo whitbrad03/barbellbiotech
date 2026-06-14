@@ -47,7 +47,7 @@ function AnnouncementBanner() {
 const css = `
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --gold:#c9a96e;--gold-d:#b8944f;--gold-l:#f9f3ea;--gold-b:#e8d5b0;
+  --gold:#d4a017;--gold-d:#b8860b;--gold-l:#fdf8e1;--gold-b:#f0d060;
   --dark:#0f0f0d;--dark-2:#1a1a16;--dark-3:#242420;
   --gray-50:#f9f8f6;--gray-100:#f2f0ec;--gray-200:#e5e1d8;--gray-300:#ccc8be;
   --gray-400:#9a9485;--gray-500:#6b6555;--gray-700:#3a3628;--gray-900:#1a1714;
