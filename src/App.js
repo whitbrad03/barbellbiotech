@@ -158,8 +158,8 @@ img{max-width:100%;display:block;}
 .add-btn{background:var(--dark);color:var(--white);border:none;padding:11px;font-size:12px;font-weight:600;border-radius:var(--radius);width:100%;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:6px;letter-spacing:.06em;text-transform:uppercase;margin-top:2px;}
 .add-btn:hover{background:var(--dark-3);}
 .add-btn:disabled{background:var(--gray-200);color:var(--gray-400);cursor:default;}
-.addon-btn{background:none;border:1px solid var(--gold-b);color:var(--gold-d);padding:8px;font-size:10px;font-weight:600;border-radius:var(--radius);width:100%;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;letter-spacing:.04em;}
-.addon-btn:hover{background:var(--gold-l);}
+.addon-btn{background:none;border:none;color:var(--gray-400);padding:4px 0;font-size:10px;font-weight:500;border-radius:var(--radius);width:100%;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;letter-spacing:.02em;text-decoration:none;}
+.addon-btn:hover{color:var(--gold-d);}
 .coa-btn{display:none;}
 .product-stock-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.06em;}
 .purity-badge{font-size:9px;font-weight:700;color:var(--gold-d);background:var(--gold-l);border:1px solid var(--gold-b);padding:2px 8px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;}
@@ -601,7 +601,6 @@ export default function App() {
   const [coaSent, setCoaSent] = useState(false);
   const [reviewProduct, setReviewProduct] = useState(null);
   const [sending, setSending] = useState(false);
-  const [coaModal, setCoaModal] = useState(null); // stores COA object to display
   const [inventory, setInventory] = useState({});
   const toastRef = useRef(null);
 
@@ -853,7 +852,34 @@ export default function App() {
                 const v = product.variants[vi];
                 return (
                   <div className="product-card" key={product.id}>
-                    <img className="product-img" src={product.img} alt={product.name} loading="lazy" />
+                    {(() => {
+                      const [imgIdx, setImgIdx] = React.useState(0);
+                      const hasCoa = !!COAS[product.id];
+                      const imgs = hasCoa ? [product.img, COAS[product.id].img] : [product.img];
+                      return (
+                        <div style={{position:'relative'}}>
+                          <img className="product-img" src={imgs[imgIdx]} alt={imgIdx===0?product.name:'COA'} loading="lazy"
+                            style={{borderRadius:'var(--radius)',cursor:hasCoa?'pointer':'default'}}
+                            onClick={() => hasCoa && setImgIdx(i => (i+1)%imgs.length)} />
+                          {hasCoa && (
+                            <div style={{position:'absolute',bottom:6,right:6,display:'flex',gap:4,alignItems:'center'}}>
+                              <button onClick={(e)=>{e.stopPropagation();setImgIdx(i=>(i+1)%imgs.length);}}
+                                style={{background:'rgba(0,0,0,.65)',backdropFilter:'blur(4px)',border:'none',color:'#fff',width:24,height:24,borderRadius:'50%',fontSize:13,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',lineHeight:1}}>
+                                {imgIdx===0?'›':'‹'}
+                              </button>
+                              <span style={{background:'rgba(0,0,0,.65)',backdropFilter:'blur(4px)',color:imgIdx===1?'var(--gold)':'rgba(255,255,255,.8)',fontSize:9,fontWeight:700,letterSpacing:'.06em',padding:'2px 6px',borderRadius:10,textTransform:'uppercase'}}>
+                                {imgIdx===0?'COA ›':'‹ Back'}
+                              </span>
+                            </div>
+                          )}
+                          {hasCoa && imgIdx===1 && (
+                            <div style={{position:'absolute',top:6,left:6,background:'var(--gold)',color:'var(--dark)',fontSize:9,fontWeight:700,letterSpacing:'.06em',padding:'2px 8px',borderRadius:10,textTransform:'uppercase'}}>
+                              {COAS[product.id].purity} Pure
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
                     <div>
                       <div className="product-cat">{product.cat}</div>
                       {(() => {
@@ -894,13 +920,6 @@ export default function App() {
                           </button>
                         );
                       })()}
-                    {COAS[product.id] && (
-                      <button onClick={() => setCoaModal(COAS[product.id])} style={{background:'none',border:'1px solid var(--gray-200)',color:'var(--gray-500)',padding:'7px',fontSize:11,fontWeight:600,borderRadius:'var(--radius)',width:'100%',display:'flex',alignItems:'center',justifyContent:'center',gap:5,letterSpacing:'.04em',transition:'all .15s'}}
-                        onMouseEnter={e=>{e.currentTarget.style.borderColor='var(--gold)';e.currentTarget.style.color='var(--gold-d)';}}
-                        onMouseLeave={e=>{e.currentTarget.style.borderColor='var(--gray-200)';e.currentTarget.style.color='var(--gray-500)';}}>
-                        <i className="ti ti-certificate" /> View COA — {COAS[product.id].purity} Purity
-                      </button>
-                    )}
                     {!product.isAncillary && (
                       <button className="addon-btn" onClick={addAddon}>
                         <i className="ti ti-plus" /> Add Reconstitution Kit (+$29)
@@ -1249,31 +1268,6 @@ export default function App() {
 
       {/* REVIEW MODAL */}
       {reviewProduct && <ReviewModal product={reviewProduct} onClose={() => setReviewProduct(null)} />}
-
-      {/* COA MODAL */}
-      {coaModal && (
-        <div className="modal-overlay" onClick={e => { if(e.target===e.currentTarget) setCoaModal(null); }}>
-          <div className="modal" style={{maxWidth:520}}>
-            <div className="modal-head">
-              <div>
-                <div className="modal-title">Certificate of Analysis</div>
-                <div style={{fontSize:11,color:'var(--gray-400)',marginTop:2,letterSpacing:'.04em'}}>{coaModal.label} · Batch {coaModal.batch} · {coaModal.date}</div>
-              </div>
-              <button className="close-btn" onClick={() => setCoaModal(null)}><i className="ti ti-x" /></button>
-            </div>
-            <div style={{padding:'1rem'}}>
-              <div style={{display:'flex',alignItems:'center',gap:'1rem',background:'var(--gold-l)',border:'1px solid var(--gold-b)',borderRadius:'var(--radius)',padding:'10px 14px',marginBottom:'1rem'}}>
-                <i className="ti ti-shield-check" style={{fontSize:20,color:'var(--gold-d)'}} />
-                <div>
-                  <div style={{fontSize:12,fontWeight:700,color:'var(--gray-900)'}}>Independent Testing by Janoshik</div>
-                  <div style={{fontSize:11,color:'var(--gray-500)',marginTop:1}}>Purity: <strong>{coaModal.purity}</strong> · Verified at janoshik.com/verify</div>
-                </div>
-              </div>
-              <img src={coaModal.img} alt="Certificate of Analysis" style={{width:'100%',borderRadius:'var(--radius)',border:'1px solid var(--gray-200)'}} />
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className={`toast${toastOn?' show':''}`}>{toastMsg}</div>
     </>
