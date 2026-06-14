@@ -152,20 +152,7 @@ img{max-width:100%;display:block;}
 .coa-btn:hover{color:var(--gold-d);}
 
 /* REVIEWS */
-.reviews-section{margin-top:12px;border-top:1px solid var(--gray-100);padding-top:10px;}
-.reviews-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.reviews-avg{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--gray-900);}
-.stars-display{display:flex;gap:2px;}
-.star{font-size:13px;color:var(--gray-200);}
-.star.filled{color:#c9a84c;text-shadow:0 0 8px rgba(201,168,76,.4);}
-.review-item{padding:8px 0;border-bottom:1px solid var(--gray-100);}
-.review-item:last-child{border-bottom:none;}
-.review-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
-.review-name{font-size:12px;font-weight:600;color:var(--gray-900);}
-.review-date{font-size:10px;color:var(--gray-400);}
-.review-text{font-size:12px;color:var(--gray-500);line-height:1.5;}
-.write-review-btn{background:none;border:1px solid var(--gray-200);color:var(--gray-500);font-size:11px;padding:5px 10px;border-radius:var(--radius);width:100%;margin-top:8px;transition:all .15s;letter-spacing:.04em;}
-.write-review-btn:hover{border-color:var(--gold);color:var(--gold-d);}
+/* reviews now in standalone section */
 
 /* LOYALTY */
 .loyalty-wrap{background:var(--dark);border-top:1px solid var(--dark-3);border-bottom:1px solid var(--dark-3);padding:5rem 2.5rem;}
@@ -472,6 +459,102 @@ function ReviewModal({ product, onClose }) {
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+// ── REVIEWS CAROUSEL ──────────────────────────────────────────────────────
+function ReviewsCarousel() {
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [current, setCurrent] = useState(0);
+  const [productFilter, setProductFilter] = useState('All');
+
+  useEffect(() => {
+    const url = CONFIG.REVIEWS_SCRIPT_URL;
+    if (!url || url.includes('YOUR_GOOGLE')) { setLoading(false); return; }
+    fetch(`${url}?action=getReviews`)
+      .then(r => r.json())
+      .then(d => { if (d.success) setReviews(d.reviews); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const productNames = ['All', ...Array.from(new Set(reviews.map(r => r.productName)))];
+  const filtered = productFilter === 'All' ? reviews : reviews.filter(r => r.productName === productFilter);
+  const avg = filtered.length ? (filtered.reduce((s,r) => s + r.rating, 0) / filtered.length).toFixed(1) : null;
+
+  const prev = () => setCurrent(c => c === 0 ? Math.max(0, filtered.length - 3) : Math.max(0, c - 1));
+  const next = () => setCurrent(c => c >= filtered.length - 1 ? 0 : c + 1);
+
+  if (loading) return <p style={{color:'rgba(255,255,255,.3)',fontSize:13}}>Loading reviews...</p>;
+
+  if (filtered.length === 0) return (
+    <div style={{textAlign:'center',padding:'3rem',color:'rgba(255,255,255,.25)',fontSize:13}}>
+      No reviews yet — be the first to leave one.
+    </div>
+  );
+
+  // Show up to 3 reviews at a time
+  const visible = filtered.slice(current, current + 3);
+  if (visible.length < 3 && filtered.length >= 3) {
+    visible.push(...filtered.slice(0, 3 - visible.length));
+  }
+
+  return (
+    <div>
+      {/* Filter + Stats */}
+      <div style={{display:'flex',alignItems:'center',gap:'1rem',marginBottom:'1.5rem',flexWrap:'wrap'}}>
+        {avg && (
+          <div style={{display:'flex',alignItems:'center',gap:'8px',marginRight:'1rem'}}>
+            <span style={{fontSize:32,fontWeight:800,color:'var(--white)'}}>{avg}</span>
+            <div>
+              <div style={{display:'flex',gap:2}}>
+                {[1,2,3,4,5].map(n => (
+                  <span key={n} style={{fontSize:16,color:n<=Math.round(avg)?'var(--gold)':'rgba(255,255,255,.15)'}}>★</span>
+                ))}
+              </div>
+              <div style={{fontSize:11,color:'rgba(255,255,255,.35)',marginTop:2}}>{filtered.length} review{filtered.length!==1?'s':''}</div>
+            </div>
+          </div>
+        )}
+        <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+          {productNames.map(name => (
+            <button key={name} onClick={() => { setProductFilter(name); setCurrent(0); }}
+              style={{background:productFilter===name?'rgba(201,168,76,.15)':'none',border:productFilter===name?'1px solid rgba(201,168,76,.5)':'1px solid rgba(255,255,255,.1)',color:productFilter===name?'var(--gold)':'rgba(255,255,255,.4)',padding:'5px 12px',fontSize:11,fontWeight:500,borderRadius:20,cursor:'pointer',letterSpacing:'.04em'}}>
+              {name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Review Cards */}
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))',gap:16,marginBottom:'1.5rem'}}>
+        {visible.map((r, i) => (
+          <div key={i} style={{background:'var(--dark-2)',border:'1px solid var(--dark-3)',borderRadius:'var(--radius-lg)',padding:'1.25rem',borderTop:'2px solid var(--gold)'}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
+              <span style={{fontSize:13,fontWeight:700,color:'var(--white)'}}>{r.name}</span>
+              <span style={{fontSize:11,color:'rgba(255,255,255,.3)'}}>{r.date}</span>
+            </div>
+            <div style={{display:'flex',gap:2,marginBottom:6}}>
+              {[1,2,3,4,5].map(n => (
+                <span key={n} style={{fontSize:13,color:n<=r.rating?'var(--gold)':'rgba(255,255,255,.15)'}}>★</span>
+              ))}
+            </div>
+            <div style={{fontSize:11,color:'rgba(255,255,255,.4)',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:6}}>{r.productName}</div>
+            <p style={{fontSize:13,color:'rgba(255,255,255,.6)',lineHeight:1.6}}>{r.comment}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Navigation */}
+      {filtered.length > 3 && (
+        <div style={{display:'flex',alignItems:'center',gap:'12px',justifyContent:'center'}}>
+          <button onClick={prev} style={{background:'none',border:'1px solid rgba(255,255,255,.15)',color:'rgba(255,255,255,.5)',width:36,height:36,borderRadius:'50%',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>‹</button>
+          <span style={{fontSize:12,color:'rgba(255,255,255,.3)'}}>{current + 1} / {filtered.length}</span>
+          <button onClick={next} style={{background:'none',border:'1px solid rgba(255,255,255,.15)',color:'rgba(255,255,255,.5)',width:36,height:36,borderRadius:'50%',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>›</button>
+        </div>
+      )}
     </div>
   );
 }
@@ -801,7 +884,6 @@ export default function App() {
                     <button className="coa-btn" onClick={() => { setCoaProduct(product.name); setCoaSent(false); setCoaEmail(''); }}>
                       Request COA
                     </button>
-                    <ProductReviews product={product} onWriteReview={setReviewProduct} />
                   </div>
                 );
               })}
