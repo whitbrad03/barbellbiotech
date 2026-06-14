@@ -878,7 +878,7 @@ export default function App() {
                       })()}
                     {!product.isAncillary && (
                       <button className="addon-btn" onClick={addAddon}>
-                        <i className="ti ti-plus" /> Add Reconstitution Kit (+$24)
+                        <i className="ti ti-plus" /> Add Reconstitution Kit (+$29)
                       </button>
                     )}
                     <button className="coa-btn" onClick={() => { setCoaProduct(product.name); setCoaSent(false); setCoaEmail(''); }}>
@@ -887,6 +887,23 @@ export default function App() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+
+          {/* REVIEWS SECTION */}
+          <div style={{background:'var(--dark)',borderTop:'1px solid var(--dark-3)',padding:'4rem 2.5rem'}}>
+            <div style={{maxWidth:1200,margin:'0 auto'}}>
+              <div style={{marginBottom:'2rem'}}>
+                <div className="section-gold-rule" />
+                <div style={{display:'flex',alignItems:'baseline',justifyContent:'space-between',flexWrap:'wrap',gap:'1rem'}}>
+                  <div style={{fontSize:22,fontWeight:800,color:'var(--white)',letterSpacing:'-.02em'}}>Customer Reviews</div>
+                  <button
+                    onClick={() => setReviewProduct(PRODUCTS[0])}
+                    style={{background:'none',border:'1px solid rgba(201,168,76,.4)',color:'var(--gold)',padding:'8px 18px',fontSize:11,fontWeight:600,borderRadius:'var(--radius)',letterSpacing:'.08em',textTransform:'uppercase',cursor:'pointer'}}
+                  >Write a Review</button>
+                </div>
+              </div>
+              <ReviewsCarousel />
             </div>
           </div>
         </>
