@@ -148,6 +148,7 @@ img{max-width:100%;display:block;}
 .badge-popular{background:#fff7ed;color:#ea580c;border:1px solid #fed7aa;}
 .badge-bundle{background:var(--gold-l);color:var(--gold-d);border:1px solid var(--gold-b);}
 .badge-add-on{background:#faf5ff;color:#7c3aed;border:1px solid #e9d5ff;}
+.bundle-badge{font-size:9px;font-weight:700;background:rgba(184,134,11,.15);border:1px solid rgba(184,134,11,.4);color:var(--gold);padding:2px 7px;border-radius:10px;letter-spacing:.04em;text-transform:uppercase;display:inline-block;margin-top:3px;}
 .variant-row{display:flex;gap:4px;flex-wrap:wrap;}
 .variant-btn{background:var(--dark-3);border:1px solid var(--gray-200);padding:4px 10px;font-size:10px;font-weight:600;color:var(--gray-400);border-radius:var(--radius);transition:all .15s;}
 .variant-btn:hover,.variant-btn.sel{border-color:var(--gold);color:var(--gold-d);background:var(--gold-l);}
@@ -167,11 +168,6 @@ img{max-width:100%;display:block;}
 /* REVIEWS */
 /* reviews now in standalone section */
 
-/* LOYALTY */
-.loyalty-wrap{background:var(--dark);border-top:1px solid var(--dark-3);border-bottom:1px solid var(--dark-3);padding:5rem 2.5rem;}
-.loyalty-inner{max-width:820px;margin:0 auto;}
-.loyalty-head{display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:1.5rem;}
-.loyalty-icon{font-size:36px;color:var(--gold);}
 .loyalty-h1{font-size:42px;font-weight:800;line-height:1;letter-spacing:-.03em;color:var(--white);}
 .loyalty-h1 span{background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .loyalty-desc{font-size:13px;color:rgba(255,255,255,.55);line-height:1.9;margin-bottom:2rem;}
@@ -208,7 +204,7 @@ img{max-width:100%;display:block;}
 .overlay.open{display:block;}
 .cart-drawer{position:fixed;right:0;top:0;bottom:0;width:420px;max-width:95vw;background:var(--dark-2);border-left:1px solid var(--gray-200);z-index:200;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease;box-shadow:-8px 0 40px rgba(0,0,0,.6);}
 .cart-drawer.open{transform:translateX(0);}
-.drawer-head{padding:1.5rem;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;justify-content:space-between;}
+.drawer-head{padding:1.5rem;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;}
 .drawer-title{font-size:17px;font-weight:800;color:var(--white);letter-spacing:-.02em;}
 .close-btn{background:none;border:none;color:var(--gray-400);font-size:20px;display:flex;align-items:center;border-radius:var(--radius);padding:4px;transition:background .15s;}
 .close-btn:hover{background:var(--gray-100);}
@@ -218,6 +214,7 @@ img{max-width:100%;display:block;}
 .cart-item-info{flex:1;}
 .item-name{font-size:13px;font-weight:600;color:var(--white);}
 .item-var{font-size:11px;color:var(--gray-400);margin-top:1px;letter-spacing:.02em;}
+.bundle-tag{font-size:9px;font-weight:700;color:var(--gold);background:rgba(184,134,11,.1);border:1px solid rgba(184,134,11,.25);padding:1px 6px;border-radius:8px;display:inline-block;margin-top:2px;}
 .qty-row{display:flex;align-items:center;gap:8px;margin-top:6px;}
 .qty-btn{background:var(--gray-100);border:none;color:var(--gray-700);width:26px;height:26px;border-radius:var(--radius);font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .15s;}
 .qty-btn:hover{background:var(--gray-200);}
@@ -225,7 +222,7 @@ img{max-width:100%;display:block;}
 .rm-btn{background:none;border:none;color:var(--gray-400);font-size:11px;margin-top:3px;display:block;letter-spacing:.02em;}
 .rm-btn:hover{color:#ef4444;}
 .item-price{font-size:18px;font-weight:800;background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.02em;}
-.cart-footer{padding:1.5rem;border-top:1px solid var(--gray-100);}
+.cart-footer{padding:1.5rem;border-top:1px solid var(--gray-200);background:var(--dark-2);}
 .total-row{display:flex;justify-content:space-between;font-size:13px;color:var(--gray-400);padding:4px 0;}
 .total-row.main{font-size:15px;font-weight:700;color:var(--white);margin-top:10px;padding-top:12px;border-top:1px solid var(--gray-200);}
 .total-row.disc{color:#16a34a;}
@@ -243,7 +240,7 @@ img{max-width:100%;display:block;}
 .modal{background:var(--dark-2);border-radius:var(--radius-xl);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.8);border:1px solid var(--gray-200);}
 .modal-head{padding:1.5rem;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--dark-2);border-radius:var(--radius-xl) var(--radius-xl) 0 0;}
 .modal-title{font-size:18px;font-weight:800;color:var(--white);letter-spacing:-.02em;}
-.modal-body{padding:1.5rem;}
+.modal-body{padding:1.5rem;background:var(--dark-2);border-radius:0 0 var(--radius-xl) var(--radius-xl);}
 .step-label{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--gold-d);text-transform:uppercase;margin-bottom:8px;}
 .steps{display:flex;align-items:center;margin-bottom:1.5rem;}
 .step-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--gray-400);flex-shrink:0;}
@@ -285,7 +282,7 @@ img{max-width:100%;display:block;}
 .primary-btn{background:var(--gold-gradient);color:var(--dark);border:none;padding:14px;width:100%;font-size:12px;font-weight:700;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s;letter-spacing:.08em;text-transform:uppercase;}
 .primary-btn:hover{opacity:.85;}
 .primary-btn:disabled{background:var(--gray-200);color:var(--gray-400);cursor:default;}
-.success-state{text-align:center;padding:2.5rem 1rem;}
+.success-state{text-align:center;padding:2.5rem 1rem;background:var(--dark-2);}
 .success-icon{font-size:52px;background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1rem;}
 .success-title{font-size:28px;font-weight:800;color:var(--white);margin-bottom:.5rem;letter-spacing:-.02em;}
 .success-text{font-size:13px;color:var(--gray-500);line-height:1.8;max-width:400px;margin:0 auto 1.5rem;}
@@ -477,15 +474,200 @@ function ReviewModal({ product, onClose }) {
   );
 }
 
+// ── PRODUCT PAGE ──────────────────────────────────────────────────────────
+function ProductPage({ product, onBack, onAddToCart, toast }) {
+  const [vi, setVi] = useState(0);
+  const [bundleQty, setBundleQty] = useState(1);
+  const [imgIdx, setImgIdx] = useState(0);
+  const v = product.variants[vi];
+  const basePrice = v.p;
+  const tier = BUNDLE_TIERS.find(t => t.qty === bundleQty);
+  const discountedPrice = tier ? +(basePrice * (1 - tier.discount)).toFixed(2) : basePrice;
+  const totalPrice = +(discountedPrice * bundleQty).toFixed(2);
+  const originalTotal = +(basePrice * bundleQty).toFixed(2);
+  const hasCoa = !!COAS[product.id];
+  const baseImg = (product.variantImgs && product.variantImgs[vi]) || product.img;
+  const imgs = hasCoa ? [baseImg, COAS[product.id].img] : [baseImg];
+
+  // Reset on variant change
+  const handleVariant = (i) => { setVi(i); setImgIdx(0); };
+
+  const handleAddToCart = () => {
+    onAddToCart(product, vi, bundleQty, discountedPrice, tier);
+  };
+
+  return (
+    <div style={{background:'#000',minHeight:'100vh',paddingBottom:'4rem'}}>
+      {/* Back button */}
+      <div style={{maxWidth:1200,margin:'0 auto',padding:'1.5rem 2.5rem 0'}}>
+        <button onClick={onBack} style={{background:'none',border:'none',color:'var(--gray-400)',fontSize:13,cursor:'pointer',display:'flex',alignItems:'center',gap:6,letterSpacing:'.04em'}}>
+          <i className="ti ti-arrow-left" /> Back to Compounds
+        </button>
+      </div>
+
+      <div style={{maxWidth:1200,margin:'0 auto',padding:'2rem 2.5rem',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'3rem',alignItems:'start'}}>
+        
+        {/* LEFT — Image */}
+        <div>
+          <div style={{position:'relative',borderRadius:'var(--radius-xl)',overflow:'hidden',background:'#0a0a08',aspectRatio:'1'}}>
+            <img src={imgs[imgIdx]} alt={product.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+            {hasCoa && (
+              <div style={{position:'absolute',bottom:12,right:12,display:'flex',gap:6,alignItems:'center'}}>
+                <button onClick={() => setImgIdx(i => (i+1)%imgs.length)}
+                  style={{background:'rgba(0,0,0,.7)',backdropFilter:'blur(4px)',border:'1px solid rgba(184,134,11,.4)',color:'var(--gold)',width:32,height:32,borderRadius:'50%',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                  {imgIdx===0?'›':'‹'}
+                </button>
+                <span style={{background:'rgba(0,0,0,.7)',backdropFilter:'blur(4px)',color:imgIdx===1?'var(--gold)':'rgba(255,255,255,.7)',fontSize:10,fontWeight:700,letterSpacing:'.06em',padding:'3px 10px',borderRadius:12,textTransform:'uppercase',border:'1px solid rgba(255,255,255,.1)'}}>
+                  {imgIdx===0?'View COA ›':'‹ Product'}
+                </span>
+              </div>
+            )}
+          </div>
+          {hasCoa && imgIdx===1 && (
+            <div style={{marginTop:12,background:'rgba(184,134,11,.08)',border:'1px solid rgba(184,134,11,.25)',borderRadius:'var(--radius)',padding:'10px 14px',display:'flex',alignItems:'center',gap:10}}>
+              <i className="ti ti-shield-check" style={{color:'var(--gold)',fontSize:18}} />
+              <div>
+                <div style={{fontSize:12,fontWeight:700,color:'var(--white)'}}>Janoshik Independent Testing</div>
+                <div style={{fontSize:11,color:'var(--gray-400)',marginTop:1}}>Purity: {COAS[product.id].purity} · Batch {COAS[product.id].batch}</div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* RIGHT — Details */}
+        <div>
+          <div style={{fontSize:10,fontWeight:700,letterSpacing:'.1em',color:'var(--gray-400)',textTransform:'uppercase',marginBottom:6}}>{product.cat}</div>
+          <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(32px,4vw,48px)',fontWeight:800,color:'var(--white)',letterSpacing:'-.02em',lineHeight:1.1,marginBottom:'1rem'}}>{product.name}</h1>
+          
+          <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:'1.5rem'}}>
+            <div style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,fontWeight:600,color:'#4ade80'}}>
+              <span style={{width:6,height:6,background:'#4ade80',borderRadius:'50%',display:'inline-block'}} />
+              In Stock
+            </div>
+            <span style={{background:'rgba(184,134,11,.15)',border:'1px solid rgba(184,134,11,.3)',color:'var(--gold)',fontSize:10,fontWeight:700,padding:'2px 10px',borderRadius:12,letterSpacing:'.06em',textTransform:'uppercase'}}>
+              &gt;99% Purity
+            </span>
+            {product.badge && <span className={`badge badge-${product.badge.toLowerCase().replace(' ','-')}`}>{product.badge}</span>}
+          </div>
+
+          {/* Variant selector */}
+          {product.variants.length > 1 && (
+            <div style={{marginBottom:'1.5rem'}}>
+              <div style={{fontSize:10,fontWeight:700,color:'var(--gray-400)',letterSpacing:'.08em',textTransform:'uppercase',marginBottom:8}}>Size</div>
+              <div style={{display:'flex',gap:8}}>
+                {product.variants.map((vv,i) => (
+                  <button key={i} onClick={() => handleVariant(i)}
+                    style={{background:vi===i?'rgba(184,134,11,.15)':'var(--dark-3)',border:vi===i?'2px solid var(--gold)':'2px solid var(--gray-200)',color:vi===i?'var(--gold)':'var(--gray-500)',padding:'10px 20px',fontSize:13,fontWeight:700,borderRadius:'var(--radius)',cursor:'pointer',transition:'all .15s',letterSpacing:'.04em'}}>
+                    {vv.l}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Description */}
+          <p style={{fontSize:13,color:'var(--gray-400)',lineHeight:1.8,marginBottom:'1.5rem',paddingBottom:'1.5rem',borderBottom:'1px solid var(--gray-200)'}}>{product.desc}</p>
+
+          {/* Bundle & Save */}
+          {!product.isAncillary && (
+            <div style={{marginBottom:'1.5rem'}}>
+              <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:10}}>
+                <div style={{height:1,flex:1,background:'var(--gray-200)'}} />
+                <div style={{fontSize:11,fontWeight:700,letterSpacing:'.1em',color:'var(--gold)',textTransform:'uppercase'}}>Bundle & Save</div>
+                <div style={{height:1,flex:1,background:'var(--gray-200)'}} />
+              </div>
+              <div style={{display:'flex',flexDirection:'column',gap:8}}>
+                {BUNDLE_TIERS.map(t => {
+                  const tPrice = +(basePrice*(1-t.discount)).toFixed(2);
+                  const tTotal = +(tPrice*t.qty).toFixed(2);
+                  const origTotal = +(basePrice*t.qty).toFixed(2);
+                  const selected = bundleQty===t.qty;
+                  return (
+                    <button key={t.qty} onClick={() => setBundleQty(t.qty)}
+                      style={{background:selected?'rgba(184,134,11,.1)':'var(--dark-3)',border:selected?'2px solid var(--gold)':'2px solid var(--gray-200)',borderRadius:'var(--radius)',padding:'12px 16px',cursor:'pointer',display:'flex',alignItems:'center',gap:12,transition:'all .15s',textAlign:'left',width:'100%'}}>
+                      <div style={{width:36,height:36,borderRadius:8,background:selected?'var(--gold)':'var(--dark-4)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                        <span style={{fontSize:16,fontWeight:800,color:selected?'#000':'var(--gray-500)',lineHeight:1}}>{t.qty}</span>
+                        <span style={{fontSize:8,fontWeight:600,color:selected?'#000':'var(--gray-400)',letterSpacing:'.04em',textTransform:'uppercase'}}>{t.qty===1?'vial':'vials'}</span>
+                      </div>
+                      <div style={{flex:1}}>
+                        <div style={{fontSize:13,fontWeight:700,color:selected?'var(--white)':'var(--gray-500)'}}>{t.qty===1?'Single':t.label}</div>
+                        <div style={{fontSize:11,color:selected?'var(--gold)':'var(--gray-400)',marginTop:1}}>${tPrice.toFixed(2)} / vial</div>
+                      </div>
+                      <div style={{textAlign:'right'}}>
+                        <div style={{fontSize:18,fontWeight:800,background:selected?'var(--gold-gradient)':'none',WebkitBackgroundClip:selected?'text':'unset',WebkitTextFillColor:selected?'transparent':'var(--gray-500)',backgroundClip:selected?'text':'unset',color:selected?undefined:'var(--gray-500)'}}>${tTotal.toFixed(2)}</div>
+                        {t.discount>0 && <div style={{fontSize:10,color:'var(--gray-400)',textDecoration:'line-through'}}>${origTotal.toFixed(2)}</div>}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Price summary */}
+          <div style={{background:'var(--dark-2)',border:'1px solid var(--gray-200)',borderRadius:'var(--radius)',padding:'1rem',marginBottom:'1.25rem'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+              <div>
+                <div style={{fontSize:11,color:'var(--gray-400)',letterSpacing:'.04em'}}>Total</div>
+                <div style={{fontSize:32,fontWeight:800,background:'var(--gold-gradient)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text',letterSpacing:'-.02em',lineHeight:1.1}}>${totalPrice.toFixed(2)} AUD</div>
+                {bundleQty>1 && tier?.discount>0 && (
+                  <div style={{fontSize:12,color:'#4ade80',marginTop:2}}>You save ${(originalTotal-totalPrice).toFixed(2)}</div>
+                )}
+              </div>
+              <div style={{textAlign:'right'}}>
+                <div style={{fontSize:10,color:'var(--gray-400)',marginBottom:3}}>Per vial</div>
+                <div style={{fontSize:18,fontWeight:700,color:'var(--white)'}}>${discountedPrice.toFixed(2)}</div>
+              </div>
+            </div>
+          </div>
+
+          <button onClick={handleAddToCart}
+            style={{background:'var(--gold-gradient)',color:'#000',border:'none',padding:'15px',width:'100%',fontSize:13,fontWeight:700,borderRadius:'var(--radius)',cursor:'pointer',letterSpacing:'.08em',textTransform:'uppercase',display:'flex',alignItems:'center',justifyContent:'center',gap:8,marginBottom:10}}>
+            <i className="ti ti-shopping-cart-plus" />
+            Add {bundleQty} {bundleQty===1?'Vial':'Vials'} to Cart
+          </button>
+
+          {!product.isAncillary && (
+            <button onClick={() => {
+              const kit = PRODUCTS.find(p=>p.id===10);
+              onAddToCart(kit, 0, 1, kit.variants[0].p, null);
+            }}
+              style={{background:'none',border:'1px solid rgba(184,134,11,.3)',color:'var(--gold)',padding:'10px',width:'100%',fontSize:11,fontWeight:600,borderRadius:'var(--radius)',cursor:'pointer',letterSpacing:'.06em',display:'flex',alignItems:'center',justifyContent:'center',gap:6}}>
+              <i className="ti ti-plus" /> Add Reconstitution Kit (+$29)
+            </button>
+          )}
+
+          {/* Trust badges */}
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginTop:'1.5rem'}}>
+            {[
+              {icon:'ti-shield-check','text':'Third-Party Tested'},
+              {icon:'ti-certificate','text':'COA Available'},
+              {icon:'ti-truck-delivery','text':'Fast Dispatch'},
+              {icon:'ti-lock','text':'Secure Checkout'},
+            ].map(b => (
+              <div key={b.text} style={{display:'flex',alignItems:'center',gap:8,background:'var(--dark-2)',border:'1px solid var(--gray-200)',borderRadius:'var(--radius)',padding:'8px 12px'}}>
+                <i className={`ti ${b.icon}`} style={{color:'var(--gold)',fontSize:14}} />
+                <span style={{fontSize:11,color:'var(--gray-400)',fontWeight:500}}>{b.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── PRODUCT IMAGE CAROUSEL ────────────────────────────────────────────────
-function ProductImage({ product }) {
+function ProductImage({ product, variantIdx }) {
   const [imgIdx, setImgIdx] = useState(0);
   const hasCoa = !!COAS[product.id];
-  const imgs = hasCoa ? [product.img, COAS[product.id].img] : [product.img];
+  // Use variant-specific image if available
+  const baseImg = (product.variantImgs && product.variantImgs[variantIdx]) || product.img;
+  const imgs = hasCoa ? [baseImg, COAS[product.id].img] : [baseImg];
 
   return (
     <div style={{position:'relative'}}>
-      <img className="product-img" src={imgs[imgIdx]} alt={imgIdx===0?product.name:'COA'} loading="lazy"
+      <img className="product-img" src={imgs[Math.min(imgIdx,imgs.length-1)]} alt={imgIdx===0?product.name:'COA'} loading="lazy"
         style={{borderRadius:'var(--radius)',cursor:hasCoa?'pointer':'default'}}
         onClick={() => hasCoa && setImgIdx(i => (i+1)%imgs.length)} />
       {hasCoa && (
@@ -604,9 +786,23 @@ function ReviewsCarousel() {
   );
 }
 
+// ── BUNDLE TIERS ──────────────────────────────────────────────────────────
+const BUNDLE_TIERS = [
+  { qty: 1, discount: 0, label: 'Single' },
+  { qty: 2, discount: 0.05, label: 'Save 5%' },
+  { qty: 3, discount: 0.10, label: 'Save 10%' },
+  { qty: 4, discount: 0.15, label: 'Save 15%' },
+  { qty: 5, discount: 0.20, label: 'Save 20%' },
+];
+const getBundleDiscount = (qty) => {
+  const tier = [...BUNDLE_TIERS].reverse().find(t => qty >= t.qty);
+  return tier || null;
+};
+
 // ── MAIN APP ───────────────────────────────────────────────────────────────
 export default function App() {
   const [page, setPage] = useState('shop');
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [cart, setCart] = useState(() => {
     try { const c = localStorage.getItem('bb_cart'); return c ? JSON.parse(c) : []; } catch { return []; }
   });
@@ -622,9 +818,6 @@ export default function App() {
   const [agreedTerms, setAgreedTerms] = useState(false);
   const [orderDone, setOrderDone] = useState(false);
   const [activeFilter, setActiveFilter] = useState('All');
-  const [loyaltySub, setLoyaltySub] = useState(null);
-  const [loyaltyEmail, setLoyaltyEmail] = useState('');
-  const [loyaltyActive, setLoyaltyActive] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
   const [toastOn, setToastOn] = useState(false);
   const [coaProduct, setCoaProduct] = useState(null);
@@ -677,14 +870,39 @@ export default function App() {
 
   const vIdx = (pid) => selVariants[pid] ?? 0;
 
+  const addToCartFromPage = (product, variantIdx, qty, price, tier) => {
+    const v = product.variants[variantIdx];
+    const key = `${product.id}-${variantIdx}`;
+    setCart(prev => {
+      const ex = prev.find(i => i.key === key);
+      const img = (product.variantImgs && product.variantImgs[variantIdx]) || product.img;
+      if (ex) {
+        const newQty = ex.qty + qty;
+        const newTier = getBundleDiscount(newQty);
+        const newPrice = newTier ? +(v.p*(1-newTier.discount)).toFixed(2) : v.p;
+        return prev.map(i => i.key===key ? {...i, qty:newQty, price:newPrice, bundleTier:newTier} : i);
+      }
+      return [...prev, { key, pid:product.id, name:product.name, variant:v.l, basePrice:v.p, price, qty, img, bundleTier:tier }];
+    });
+    toast(`${qty}× ${product.name} added to cart`);
+    setSelectedProduct(null);
+  };
+
   const addToCart = (product) => {
     const vi = vIdx(product.id);
     const v = product.variants[vi];
     const key = `${product.id}-${vi}`;
     setCart(prev => {
       const ex = prev.find(i => i.key === key);
-      if (ex) return prev.map(i => i.key === key ? { ...i, qty: i.qty + 1 } : i);
-      return [...prev, { key, pid: product.id, name: product.name, variant: v.l, price: v.p, qty: 1, img: product.img }];
+      const newCart = ex
+        ? prev.map(i => i.key === key ? { ...i, qty: i.qty + 1 } : i)
+        : [...prev, { key, pid: product.id, name: product.name, variant: v.l, basePrice: v.p, price: v.p, qty: 1, img: (product.variantImgs && product.variantImgs[vi]) || product.img }];
+      // Apply bundle discount
+      return newCart.map(i => {
+        if (i.key !== key) return i;
+        const tier = getBundleDiscount(i.qty);
+        return { ...i, price: tier ? +(i.basePrice * (1 - tier.discount)).toFixed(2) : i.basePrice, bundleTier: tier };
+      });
     });
     toast(`${product.name} added to cart`);
   };
@@ -701,7 +919,7 @@ export default function App() {
   const removeItem = (key) => setCart(prev => prev.filter(i => i.key !== key));
 
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  const discount = loyaltyActive ? +(subtotal * 0.1).toFixed(2) : 0;
+  const discount = 0;
   const shippingCost = checkoutExpress ? 18 : subtotal - discount >= 150 ? 0 : 12;
   const total = +(subtotal - discount + shippingCost).toFixed(2);
   const cartCount = cart.reduce((s, i) => s + i.qty, 0);
@@ -716,12 +934,12 @@ export default function App() {
     shipping: checkoutExpress ? 'Express ($18)' : 'Standard',
     items: cart.map(i => `${i.name} (${i.variant}) x${i.qty} = $${(i.price * i.qty).toFixed(2)}`).join('\n'),
     subtotal: `$${subtotal.toFixed(2)}`,
-    discount: loyaltyActive ? `-$${discount}` : 'None',
+    discount: 'None',
     shipping_cost: shippingCost === 0 ? 'Free' : `$${shippingCost}`,
     total: `$${total.toFixed(2)} AUD`,
     payment_currency: checkoutCrypto,
     wallet_address: WALLETS[checkoutCrypto],
-    loyalty_plan: loyaltyActive ? loyaltySub : 'None',
+    loyalty_plan: 'None',
   });
 
   const deductStock = async (orderCart) => {
@@ -801,7 +1019,7 @@ export default function App() {
           <span className="nav-logo-sub">Research Compounds</span>
         </button>
         <div className="nav-links">
-          {[['shop','Shop'],['loyalty','Loyalty'],['info','Info'],['terms','Terms']].map(([p,l]) => (
+          {[['shop','Shop'],['info','Info'],['terms','Terms']].map(([p,l]) => (
             <button key={p} className={`nav-link${page===p?' active':''}`} onClick={() => setPage(p)}>{l}</button>
           ))}
           <button className="cart-btn" onClick={() => setCartOpen(true)}>
@@ -819,8 +1037,18 @@ export default function App() {
       </div>
       <div className="research-bar">All products are strictly for laboratory and in-vitro research use only. Not for human consumption.</div>
 
+      {/* PRODUCT PAGE */}
+      {selectedProduct && (
+        <ProductPage
+          product={selectedProduct}
+          onBack={() => setSelectedProduct(null)}
+          onAddToCart={addToCartFromPage}
+          toast={toast}
+        />
+      )}
+
       {/* SHOP */}
-      {page === 'shop' && (
+      {page === 'shop' && !selectedProduct && (
         <>
           <div className="hero">
             <img src={img_hero} alt="Barbell Biotech" className="hero-bg" />
@@ -882,8 +1110,8 @@ export default function App() {
                 const vi = vIdx(product.id);
                 const v = product.variants[vi];
                 return (
-                  <div className="product-card" key={product.id}>
-                    <ProductImage product={product} />
+                  <div className="product-card" key={product.id} onClick={() => setSelectedProduct(product)}>
+                    <ProductImage product={product} variantIdx={vi} />
                     <div>
                       <div className="product-cat">{product.cat}</div>
                       {(() => {
@@ -903,7 +1131,7 @@ export default function App() {
                       <div className="variant-row">
                         {product.variants.map((vv, i) => (
                           <button key={i} className={`variant-btn${vi===i?' sel':''}`}
-                            onClick={() => setSelVariants(prev => ({ ...prev, [product.id]: i }))}>{vv.l}</button>
+                            onClick={(e) => { e.stopPropagation(); setSelVariants(prev => ({ ...prev, [product.id]: i })); }}>{vv.l}</button>
                         ))}
                       </div>
                     )}
@@ -919,13 +1147,13 @@ export default function App() {
                         const stock = getStock(product.id, variantLabel);
                         const outOfStock = stock !== null && stock === 0;
                         return (
-                          <button className="add-btn" onClick={() => addToCart(product)} disabled={outOfStock} style={outOfStock ? {background:'var(--gray-200)',color:'var(--gray-400)',cursor:'default'} : {}}>
+                          <button className="add-btn" onClick={(e) => { e.stopPropagation(); addToCart(product); }} disabled={outOfStock} style={outOfStock ? {background:'var(--gray-200)',color:'var(--gray-400)',cursor:'default'} : {}}>
                             <i className="ti ti-shopping-cart-plus" /> {outOfStock ? 'Out of Stock' : 'Add to Cart'}
                           </button>
                         );
                       })()}
                     {!product.isAncillary && (
-                      <button className="addon-btn" onClick={addAddon}>
+                      <button className="addon-btn" onClick={(e) => { e.stopPropagation(); addAddon(); }}>
                         <i className="ti ti-plus" /> Add Reconstitution Kit (+$29)
                       </button>
                     )}
@@ -957,57 +1185,8 @@ export default function App() {
         </>
       )}
 
-      {/* LOYALTY */}
-      {page === 'loyalty' && (
-        <div className="loyalty-wrap" style={{ minHeight: '80vh' }}>
-          <div className="loyalty-inner">
-            <div className="loyalty-head">
-              <div className="loyalty-icon"><i className="ti ti-repeat" /></div>
-              <div className="loyalty-h1">Subscription<br /><span>Discount</span></div>
-            </div>
-            <p className="loyalty-desc">Sign up to a recurring subscription and receive 10% off every order, applied automatically at checkout. No lock-in. Cancel any time via email.</p>
-            {!loyaltyActive ? (
-              <>
-                <div className="step-label">Choose frequency</div>
-                <div className="loyalty-opts">
-                  {[['Fortnightly','Order every 2 weeks.'],['Monthly','Order once a month.']].map(([l,d]) => (
-                    <div key={l} className={`loyalty-opt${loyaltySub===l?' sel':''}`} onClick={() => setLoyaltySub(l)}>
-                      <div className="loyalty-opt-title">{l}</div>
-                      <div className="loyalty-opt-desc">{d}</div>
-                    </div>
-                  ))}
-                </div>
-                <div className="step-label">Your email</div>
-                <div className="loyalty-form">
-                  <input className="loyalty-input" type="email" placeholder="research@email.com"
-                    value={loyaltyEmail} onChange={e => setLoyaltyEmail(e.target.value)} />
-                  <button className="loyalty-submit"
-                    disabled={!loyaltySub || !loyaltyEmail.includes('@')}
-                    onClick={() => { setLoyaltyActive(true); toast('Subscribed — 10% discount active'); }}>
-                    Subscribe
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div className="loyalty-success" style={{ marginBottom: '1.5rem' }}>
-                <i className="ti ti-circle-check" style={{ fontSize: 20 }} />
-                Subscribed on <strong style={{ margin: '0 4px' }}>{loyaltySub}</strong> plan — 10% discount is active.
-              </div>
-            )}
-            {[
-              ['10% off every order','Applied automatically at checkout.'],
-              ['Priority dispatch','Your orders are queued first.'],
-              ['Early access to new batches','First to know when new compounds land.'],
-              ['No lock-in','Cancel any time. Just email us.'],
-            ].map(([t, d]) => (
-              <div className="perk" key={t}>
-                <span className="perk-check"><i className="ti ti-check" /></span>
-                <div className="perk-text"><strong>{t}</strong> — {d}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {!selectedProduct && <>
+
 
       {/* INFO */}
       {page === 'info' && (
@@ -1050,6 +1229,8 @@ export default function App() {
         </div>
       )}
 
+      </>
+      }
       {/* FOOTER */}
       <footer className="footer">
         <div>
@@ -1061,7 +1242,7 @@ export default function App() {
         </div>
         <div className="footer-legal">All products are for research purposes only and not for human consumption. Products have not been evaluated by the TGA. Customers are responsible for compliance with all applicable local laws. © 2026 Barbell Biotech.</div>
         <div className="footer-links">
-          {[['shop','Shop'],['loyalty','Loyalty'],['info','Info'],['terms','Terms']].map(([p,l]) => (
+          {[['shop','Shop'],['info','Info'],['terms','Terms']].map(([p,l]) => (
             <button key={p} className="footer-link" onClick={() => setPage(p)}>{l}</button>
           ))}
         </div>
@@ -1086,6 +1267,7 @@ export default function App() {
               <div className="cart-item-info">
                 <div className="item-name">{item.name}</div>
                 <div className="item-var">{item.variant}</div>
+                {item.bundleTier && <span className="bundle-tag">Bundle — {item.bundleTier.label}</span>}
                 <div className="qty-row">
                   <button className="qty-btn" onClick={() => updateQty(item.key, -1)}>−</button>
                   <span className="qty-val">{item.qty}</span>
@@ -1099,7 +1281,7 @@ export default function App() {
         </div>
         <div className="cart-footer">
           <div className="total-row"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
-          {loyaltyActive && <div className="total-row disc"><span>Loyalty 10% off</span><span>−${discount.toFixed(2)}</span></div>}
+
           <div className="total-row"><span>Shipping</span><span>{shippingCost === 0 ? 'Free' : `$${shippingCost}`}</span></div>
           <div className="total-row main"><span>Total</span><span>${total.toFixed(2)} AUD</span></div>
           <button className="checkout-btn" disabled={cart.length === 0} onClick={openCheckout}>Proceed to Checkout</button>
@@ -1143,7 +1325,7 @@ export default function App() {
                             <span>${(i.price * i.qty).toFixed(2)}</span>
                           </div>
                         ))}
-                        {loyaltyActive && <div className="order-row" style={{ color: 'var(--green)' }}><span>Loyalty discount</span><span>−${discount.toFixed(2)}</span></div>}
+                
                         <div className="order-total"><span>Subtotal</span><span>${(subtotal - discount).toFixed(2)}</span></div>
                       </div>
                       <div className="step-label">Shipping Method</div>
