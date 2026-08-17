@@ -811,15 +811,6 @@ function ReviewsCarousel() {
 }
 
 // ── BUNDLE TIERS ──────────────────────────────────────────────────────────
-const SALE = { active: true, discount: 0.30, label: '30% OFF SALE' };
-const SALE_EXCLUDED = [9, 10]; // BAC Water, Reconstitution Kit
-
-const getSalePrice = (product, basePrice) => {
-  if (!SALE.active) return null;
-  if (SALE_EXCLUDED.includes(product.id)) return null;
-  return +(basePrice * (1 - SALE.discount)).toFixed(2);
-};
-
 const BUNDLE_TIERS = [
   { qty: 1, discount: 0, label: 'Single' },
   { qty: 2, discount: 0.05, label: 'Save 5%' },
