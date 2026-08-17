@@ -26,11 +26,11 @@ emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);
 
 // ── ANNOUNCEMENT BANNER ────────────────────────────────────────────────────
 const ANNOUNCEMENTS = [
+  { text: '🔥 STOREWIDE SALE —', highlight: '30% OFF ALL PEPTIDES — LIMITED TIME' },
   { text: 'Free standard shipping on orders over', highlight: '$150 AUD' },
   { text: 'Every batch independently tested —', highlight: 'COA available on request' },
-  { text: 'New arrival:', highlight: 'Retatrutide now in stock' },
-  { text: 'Loyalty subscribers receive', highlight: '10% off every order' },
   { text: 'Same business day dispatch on orders before', highlight: '2PM AEST' },
+  { text: '🔥 STOREWIDE SALE —', highlight: '30% OFF ALL PEPTIDES — LIMITED TIME' },
 ];
 
 function AnnouncementBanner() {
@@ -83,7 +83,7 @@ button{font-family:'Inter',sans-serif;cursor:pointer;}
 img{max-width:100%;display:block;}
 
 /* ANNOUNCEMENT BANNER */
-.announce-bar{background:var(--dark);overflow:hidden;height:40px;position:relative;}
+.announce-bar{background:linear-gradient(90deg,#7a0000,#b8000b,#7a0000);overflow:hidden;height:40px;position:relative;}
 .announce-track{display:flex;height:100%;}
 .announce-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:rgba(255,255,255,.85);letter-spacing:.06em;gap:12px;transition:opacity .5s ease;}
 .announce-slide span{color:var(--gold);}
@@ -1161,9 +1161,19 @@ export default function App() {
                     )}
                     <div className="price-row">
                       <div>
-                        <div className="price">${v.p}</div>
+                        {getSalePrice(product, v.p) ? (
+                          <div style={{display:'flex',alignItems:'baseline',gap:6}}>
+                            <div className="price">${getSalePrice(product, v.p).toFixed(2)}</div>
+                            <div style={{fontSize:13,color:'var(--gray-400)',textDecoration:'line-through'}}>${v.p}</div>
+                          </div>
+                        ) : (
+                          <div className="price">${v.p}</div>
+                        )}
                         <div className="price-sub">AUD · {v.l}</div>
                       </div>
+                      {getSalePrice(product, v.p) && (
+                        <span style={{fontSize:9,fontWeight:800,background:'#b8000b',color:'#fff',padding:'2px 8px',borderRadius:10,letterSpacing:'.06em',alignSelf:'flex-start'}}>30% OFF</span>
+                      )}
                     </div>
                     {(() => {
                         const vi = vIdx(product.id);
