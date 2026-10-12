@@ -5,7 +5,7 @@ import { CONFIG, WALLETS, BANK_KEY, BANK_BSB, BANK_ACCOUNT } from './config';
 import { PRODUCTS, CATEGORIES } from './products';
 
 // ── SALE CONFIG ───────────────────────────────────────────────────────────
-const SALE = { active: true, discount: 0.30, label: '30% OFF SALE' };
+const SALE = { active: false, discount: 0.30, label: '30% OFF SALE' };
 const SALE_EXCLUDED = [9, 10]; // BAC Water (id 9), Reconstitution Kit (id 10)
 const getSalePrice = (product, basePrice) => {
   if (!SALE.active) return null;
@@ -24,13 +24,88 @@ const COAS = {
 
 emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);
 
+// ── MAILING LIST POPUP ────────────────────────────────────────────────────
+function MailingListPopup({ onClose }) {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('idle'); // idle | loading | success | error
+
+  const handleSubmit = async () => {
+    if (!email.includes('@')) return;
+    setStatus('loading');
+    try {
+      const res = await fetch(CONFIG.MAILING_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'subscribe', email }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatus('success');
+        setTimeout(() => onClose(), 2500);
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
+  };
+
+  return (
+    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.75)',backdropFilter:'blur(4px)',zIndex:300,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}>
+      <div style={{background:'#0f0f0d',border:'1px solid rgba(184,134,11,.35)',borderRadius:16,width:'100%',maxWidth:420,padding:'2.5rem 2rem',position:'relative',boxShadow:'0 24px 80px rgba(0,0,0,.8)'}}>
+        {/* Close */}
+        <button onClick={onClose} style={{position:'absolute',top:14,right:14,background:'none',border:'none',color:'var(--gray-400)',fontSize:20,cursor:'pointer',lineHeight:1}}>✕</button>
+
+        {/* Gold rule */}
+        <div style={{width:40,height:2,background:'linear-gradient(90deg,#d4a017,#b8860b)',borderRadius:2,marginBottom:'1.25rem'}} />
+
+        {status === 'success' ? (
+          <div style={{textAlign:'center',padding:'1rem 0'}}>
+            <div style={{fontSize:32,marginBottom:'.75rem'}}>✓</div>
+            <div style={{fontSize:18,fontWeight:800,color:'var(--white)',marginBottom:'.5rem'}}>You're on the list</div>
+            <div style={{fontSize:13,color:'var(--gray-400)'}}>We'll let you know when the next sale drops.</div>
+          </div>
+        ) : (
+          <>
+            <div style={{fontSize:10,fontWeight:700,letterSpacing:'.12em',color:'var(--gold)',textTransform:'uppercase',marginBottom:8}}>Members Only</div>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:26,fontWeight:800,color:'var(--white)',lineHeight:1.2,marginBottom:'.75rem'}}>
+              Be first to know<br />about our sales
+            </div>
+            <div style={{fontSize:13,color:'var(--gray-400)',lineHeight:1.7,marginBottom:'1.5rem'}}>
+              Join the Barbell Biotech mailing list and get notified when we run promotions — before anyone else.
+            </div>
+            <div style={{display:'flex',gap:8,marginBottom:'.75rem'}}>
+              <input
+                type="email"
+                placeholder="your@email.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+                style={{flex:1,background:'#1c1c19',border:'1px solid rgba(184,134,11,.3)',borderRadius:8,padding:'10px 14px',fontSize:13,color:'var(--white)',outline:'none',fontFamily:"'Inter',sans-serif"}}
+              />
+              <button
+                onClick={handleSubmit}
+                disabled={status==='loading' || !email.includes('@')}
+                style={{background:'linear-gradient(135deg,#d4a017,#b8860b,#e0b830,#7a5500,#c49010,#d4a017)',color:'#000',border:'none',borderRadius:8,padding:'10px 18px',fontSize:12,fontWeight:700,cursor:'pointer',letterSpacing:'.06em',textTransform:'uppercase',opacity:status==='loading'?.6:1,whiteSpace:'nowrap'}}>
+                {status==='loading' ? '...' : 'Notify Me'}
+              </button>
+            </div>
+            {status === 'error' && <div style={{fontSize:12,color:'#f87171'}}>Something went wrong — try again.</div>}
+            <div style={{fontSize:10,color:'var(--gray-400)',lineHeight:1.6}}>No spam. Unsubscribe any time. Research use only.</div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ── ANNOUNCEMENT BANNER ────────────────────────────────────────────────────
 const ANNOUNCEMENTS = [
-  { text: '🔥 STOREWIDE SALE —', highlight: '30% OFF ALL PEPTIDES — LIMITED TIME' },
   { text: 'Free standard shipping on orders over', highlight: '$150 AUD' },
   { text: 'Every batch independently tested —', highlight: 'COA available on request' },
+  { text: 'New arrival:', highlight: 'Retatrutide now in stock' },
   { text: 'Same business day dispatch on orders before', highlight: '2PM AEST' },
-  { text: '🔥 STOREWIDE SALE —', highlight: '30% OFF ALL PEPTIDES — LIMITED TIME' },
+  { text: 'Research grade peptides —', highlight: 'COA available for all products' },
 ];
 
 function AnnouncementBanner() {
@@ -83,7 +158,7 @@ button{font-family:'Inter',sans-serif;cursor:pointer;}
 img{max-width:100%;display:block;}
 
 /* ANNOUNCEMENT BANNER */
-.announce-bar{background:linear-gradient(90deg,#7a0000,#b8000b,#7a0000);overflow:hidden;height:40px;position:relative;}
+.announce-bar{background:var(--dark);overflow:hidden;height:40px;position:relative;}
 .announce-track{display:flex;height:100%;}
 .announce-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:rgba(255,255,255,.85);letter-spacing:.06em;gap:12px;transition:opacity .5s ease;}
 .announce-slide span{color:var(--gold);}
@@ -827,6 +902,19 @@ const getBundleDiscount = (qty) => {
 export default function App() {
   const [page, setPage] = useState('shop');
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showMailingPopup, setShowMailingPopup] = useState(false);
+
+  useEffect(() => {
+    const dismissed = sessionStorage.getItem('mailingDismissed');
+    if (dismissed) return;
+    const t = setTimeout(() => setShowMailingPopup(true), 5000);
+    return () => clearTimeout(t);
+  }, []);
+
+  const closeMailingPopup = () => {
+    setShowMailingPopup(false);
+    sessionStorage.setItem('mailingDismissed', '1');
+  };
   const [cart, setCart] = useState(() => {
     try { const c = localStorage.getItem('bb_cart'); return c ? JSON.parse(c) : []; } catch { return []; }
   });
@@ -1034,6 +1122,7 @@ export default function App() {
     <>
       <style>{css}</style>
 
+      {showMailingPopup && <MailingListPopup onClose={closeMailingPopup} />}
       <AnnouncementBanner />
 
       {/* NAV */}
