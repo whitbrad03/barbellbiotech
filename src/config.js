@@ -23,9 +23,9 @@ export const WALLETS = {
   'Bitcoin (BTC)':  'bc1q2jz2y4krrk2g8p38ede5rs5eqyt4lnlsx8wjf0',
   'Ethereum (ETH)': '0x0107935Cca80E523E4Eb943d4a271D2F3e4d451D',
   'Solana (SOL)':   'AKuAqtFBKqRwe1pgLn4dYUVZJFbW9UbKRAR8vW42N8aa',
-  'Bank Transfer (AUD)': 'BSB: 772-772 · Account: 141003210',
+  'Bank Transfer (AUD)': 'BSB: 014-111 · Account: 658983007',
 };
 
 export const BANK_KEY = 'Bank Transfer (AUD)';
-export const BANK_BSB = '772-772';
-export const BANK_ACCOUNT = '141003210';
+export const BANK_BSB = '014-111';
+export const BANK_ACCOUNT = '658983007';
